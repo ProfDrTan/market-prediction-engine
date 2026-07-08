@@ -1,0 +1,35 @@
+Running pipeline for ^GSPC...
+  Technical: sideways, RSI 45.9
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Nemotron: ERROR no JSON object found in response: 'We need to produce JSON with direction, range_low, range_high, confidence, reasoning. Use data: technical sideways trend, RSI 45.9 (neutral), momentum 20d 0.75% (slightly positive). Macro regime: risk'
+  GPT-OSS: 429, retrying once after 12s
+  GPT-OSS: ERROR HTTP Error 429: Too Many Requests
+  Gemma: 429, retrying once after 12s
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: ERROR empty response content
+  No model calls succeeded for ^GSPC, skipping synthesis.
+Running pipeline for ^NDX...
+  Technical: sideways, RSI 42.35
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Nemotron: ERROR no JSON object found in response: 'We need to output a JSON object only. Provide direction (up|down|flat), range_low and range_high as floats percent, confidence (low|medium|high), reasoning one sentence. Based on given data: technical'
+  GPT-OSS: 429, retrying once after 12s
+  GPT-OSS: ERROR HTTP Error 429: Too Many Requests
+  Gemma: 429, retrying once after 12s
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: ERROR empty response content
+  No model calls succeeded for ^NDX, skipping synthesis.
+Running pipeline for IWM...
+  Technical: uptrend, RSI 50.32
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Nemotron: ERROR no JSON object found in response: 'We need to output JSON with fields: direction, range_low, range_high, confidence, reasoning. No extra text. Use the data: trend uptrend, RSI ~50 (neutral), momentum 20d +3.12% (positive). Macro: risk-'
+  GPT-OSS: 429, retrying once after 12s
+  GPT-OSS: ERROR HTTP Error 429: Too Many Requests
+  Gemma: 429, retrying once after 12s
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: ERROR empty response content
+  No model calls succeeded for IWM, skipping synthesis.
+
+PYTHON EXIT CODE: 0
