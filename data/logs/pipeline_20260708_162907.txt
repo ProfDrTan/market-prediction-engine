@@ -1,0 +1,29 @@
+Running pipeline for ^GSPC...
+  Technical: sideways, RSI 45.71
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Nemotron: ERROR Expecting value: line 1 column 1 (char 0)
+  GPT-OSS: ERROR HTTP Error 429: Too Many Requests
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: ERROR 'NoneType' object has no attribute 'strip'
+  No model calls succeeded for ^GSPC, skipping synthesis.
+Running pipeline for ^NDX...
+  Technical: sideways, RSI 42.27
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Nemotron: ERROR Expecting value: line 1 column 1 (char 0)
+  GPT-OSS: ERROR HTTP Error 429: Too Many Requests
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: ERROR 'NoneType' object has no attribute 'strip'
+  No model calls succeeded for ^NDX, skipping synthesis.
+Running pipeline for IWM...
+  Technical: uptrend, RSI 50.58
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Nemotron: ERROR Expecting value: line 1 column 1 (char 0)
+  GPT-OSS: ERROR HTTP Error 429: Too Many Requests
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: ERROR 'NoneType' object has no attribute 'strip'
+  No model calls succeeded for IWM, skipping synthesis.
+
+PYTHON EXIT CODE: 0
