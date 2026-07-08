@@ -1,0 +1,45 @@
+name: Weekly Prediction Pipeline
+
+# Runs the full agent + multi-LLM synthesis pipeline for SPX/NDX/IWM
+# and commits the resulting prediction JSON files back to the repo.
+
+on:
+  schedule:
+    # Monday 06:00 UTC — before US market open, once weekly.
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run prediction pipeline
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: python run_pipeline.py
+
+      - name: Commit and push new predictions
+        run: |
+          git config user.name "market-prediction-engine-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/predictions/ data/trust/ || true
+          if git diff --cached --quiet; then
+            echo "No new prediction data to commit."
+          else
+            git commit -m "Weekly pipeline run: $(date -u +'%Y-%m-%d')"
+            git push
+          fi
