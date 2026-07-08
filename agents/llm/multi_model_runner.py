@@ -7,10 +7,22 @@ Requires OPENROUTER_API_KEY (free-tier models) as a GitHub Actions secret.
 Uses OpenRouter so multiple providers (not just Anthropic) are queried, matching
 Team 1's four-model comparison but with weights that evolve based on tracked
 accuracy.
+
+Reliability notes (added after the first live run surfaced real failures):
+- Free-tier OpenRouter models are rate-limited; firing 4 calls back-to-back
+  per ticker across 3 tickers triggered 429s. A short pacing delay plus a
+  single retry-on-429 fixes this without needing paid credits.
+- Some free models don't reliably return clean JSON even when asked to.
+  extract_json() pulls the first {...} block out of whatever text comes back
+  instead of assuming the whole response is valid JSON.
+- A model can return empty/None content; every step that touches the raw
+  text now guards against that instead of assuming a string.
 """
 import json
 import os
+import re
 import sys
+import time
 import urllib.request
 from datetime import date
 from pathlib import Path
@@ -33,6 +45,10 @@ DIRECTION_TO_NUM = {"down": -1, "flat": 0, "up": 1}
 NUM_TO_DIRECTION = {-1: "down", 0: "flat", 1: "up"}
 CONFIDENCE_LEVELS = ["low", "medium", "high"]
 
+# Pacing between calls to stay under free-tier per-minute rate limits.
+CALL_DELAY_SECONDS = 4
+RETRY_DELAY_SECONDS = 12
+
 
 def build_prompt(ticker: str, technical: TechnicalOutput, macro: MacroOutput, almanac: AlmanacOutput) -> str:
     return (
@@ -47,6 +63,23 @@ def build_prompt(ticker: str, technical: TechnicalOutput, macro: MacroOutput, al
         f'"confidence": "low|medium|high", "reasoning": "<one sentence>"}}. '
         f"This is a probabilistic estimate for an educational project, not investment advice."
     )
+
+
+def extract_json(text) -> dict:
+    """
+    Pulls the first {...} block out of a model's raw response instead of
+    assuming the whole string is valid JSON. Handles markdown fences, stray
+    prose before/after the JSON, and raises a clear error on empty content
+    rather than crashing on .strip() against None.
+    """
+    if not text:
+        raise ValueError("empty response content")
+    text = text.strip()
+    text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+    match = re.search(r"\{.*\}", text, re.DOTALL)
+    if not match:
+        raise ValueError(f"no JSON object found in response: {text[:200]!r}")
+    return json.loads(match.group(0))
 
 
 def call_openrouter(api_key: str, model_id: str, prompt: str) -> dict:
@@ -64,10 +97,8 @@ def call_openrouter(api_key: str, model_id: str, prompt: str) -> dict:
     )
     with urllib.request.urlopen(req, timeout=45) as resp:
         data = json.loads(resp.read().decode("utf-8"))
-    text = data["choices"][0]["message"]["content"]
-    # strip markdown fences if present
-    text = text.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
-    return json.loads(text)
+    text = data["choices"][0]["message"].get("content")
+    return extract_json(text)
 
 
 def query_all_models(ticker: str, technical, macro, almanac) -> list[ModelCall]:
@@ -77,9 +108,11 @@ def query_all_models(ticker: str, technical, macro, almanac) -> list[ModelCall]:
 
     prompt = build_prompt(ticker, technical, macro, almanac)
     calls = []
-    for model in MODELS:
+    for i, model in enumerate(MODELS):
+        if i > 0:
+            time.sleep(CALL_DELAY_SECONDS)
         try:
-            result = call_openrouter(api_key, model["id"], prompt)
+            result = _call_with_retry(api_key, model, prompt)
             calls.append(ModelCall(
                 model_name=model["name"],
                 direction=result["direction"],
@@ -91,6 +124,19 @@ def query_all_models(ticker: str, technical, macro, almanac) -> list[ModelCall]:
         except Exception as e:
             print(f"  {model['name']}: ERROR {e}")
     return calls
+
+
+def _call_with_retry(api_key: str, model: dict, prompt: str) -> dict:
+    """One retry on 429 (rate limit) after a longer backoff; every other
+    error type is not worth retrying and fails immediately."""
+    try:
+        return call_openrouter(api_key, model["id"], prompt)
+    except urllib.error.HTTPError as e:
+        if e.code == 429:
+            print(f"  {model['name']}: 429, retrying once after {RETRY_DELAY_SECONDS}s")
+            time.sleep(RETRY_DELAY_SECONDS)
+            return call_openrouter(api_key, model["id"], prompt)
+        raise
 
 
 def synthesize(ticker: str, model_calls: list[ModelCall]) -> SynthesisOutput:
