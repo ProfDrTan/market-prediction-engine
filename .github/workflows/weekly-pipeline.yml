@@ -31,19 +31,32 @@ jobs:
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
+          set +e
           mkdir -p data/logs
           LOGFILE="data/logs/pipeline_$(date -u +%Y%m%d_%H%M%S).txt"
-          python run_pipeline.py 2>&1 | tee "$LOGFILE"
-          echo "LOGFILE=$LOGFILE" >> "$GITHUB_ENV"
+          python run_pipeline.py > "$LOGFILE" 2>&1
+          EXIT_CODE=$?
+          echo "" >> "$LOGFILE"
+          echo "PYTHON EXIT CODE: $EXIT_CODE" >> "$LOGFILE"
+          echo "----- log contents -----"
+          cat "$LOGFILE"
+          echo "-------------------------"
+          echo "----- data/ tree after run -----"
+          find data -type f
+          echo "---------------------------------"
+          exit 0
 
       - name: Commit and push new predictions and logs
         run: |
+          set +e
           git config user.name "market-prediction-engine-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/predictions/ data/trust/ data/logs/ || true
+          git add -A data/
+          git status
           if git diff --cached --quiet; then
-            echo "No new prediction data to commit."
+            echo "No new data to commit."
           else
             git commit -m "Weekly pipeline run: $(date -u +'%Y-%m-%d')"
             git push
           fi
+          exit 0
