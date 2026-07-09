@@ -1,0 +1,35 @@
+Running pipeline for ^GSPC...
+  Technical: uptrend, RSI 59.88
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  GPT-OSS: 429, retrying once after 12s
+  GPT-OSS: ERROR HTTP Error 429: Too Many Requests
+  Gemma: 429, retrying once after 12s
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: ERROR empty response content
+  Synthesized: up (0.5% to 2.0%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-07-09_GSPC.json
+Running pipeline for ^NDX...
+  Technical: uptrend, RSI 50.01
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Nemotron: ERROR no JSON object found in response: 'We need to output a JSON object only, with fields: direction, range_low, range_high, confidence, reasoning. Provide one sentence reasoning.\n\nWe need to consider the data: Technical: uptrend, RSI ~50 ('
+  GPT-OSS: 429, retrying once after 12s
+  GPT-OSS: ERROR HTTP Error 429: Too Many Requests
+  Gemma: 429, retrying once after 12s
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: ERROR empty response content
+  No model calls succeeded for ^NDX, skipping synthesis.
+Running pipeline for IWM...
+  Technical: uptrend, RSI 61.7
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Nemotron: ERROR no JSON object found in response: 'We need to output JSON only. Must follow schema: direction "up|down|flat", range_low float percent, range_high float percent, confidence low|medium|high, reasoning one sentence.\n\nGiven technical: uptr'
+  GPT-OSS: 429, retrying once after 12s
+  GPT-OSS: ERROR HTTP Error 429: Too Many Requests
+  Gemma: 429, retrying once after 12s
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: ERROR empty response content
+  No model calls succeeded for IWM, skipping synthesis.
+
+PYTHON EXIT CODE: 0

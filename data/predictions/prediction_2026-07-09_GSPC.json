@@ -1,0 +1,47 @@
+{
+  "ticker": "^GSPC",
+  "prediction_date": "2026-07-09",
+  "technical": {
+    "ticker": "^GSPC",
+    "trend": "uptrend",
+    "rsi": 59.88,
+    "pct_from_50dma": 1.39,
+    "pct_from_200dma": 8.14,
+    "momentum_20d": 1.9,
+    "notes": "RSI 59.88 (neutral)"
+  },
+  "macro": {
+    "regime": "risk-off",
+    "dxy_change_1w": -0.46,
+    "yield_10y_change_1w": 2.97,
+    "oil_change_1w": 5.42,
+    "gold_change_1w": 1.71,
+    "vix_level": 16.21,
+    "notes": "DXY -0.46%, 10Y yield +2.97%, Oil +5.42%, Gold +1.71%, VIX 16.21"
+  },
+  "almanac": {
+    "month": 7,
+    "seasonal_bias": "bullish",
+    "avg_return_this_month": 0.0244,
+    "win_rate_this_month": 0.8,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 7; avg 2.44%, win rate 80%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "up",
+      "range_low": 0.5,
+      "range_high": 2.0,
+      "confidence": "medium",
+      "reasoning": "Technical uptrend and positive momentum support gains, while risk\u2011off macro pressures are offset by strong seasonal bullish bias."
+    }
+  ],
+  "weighted_direction": "up",
+  "weighted_range_low": 0.5,
+  "weighted_range_high": 2.0,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 1.0
+  }
+}
