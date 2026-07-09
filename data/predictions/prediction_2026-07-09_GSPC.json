@@ -4,20 +4,20 @@
   "technical": {
     "ticker": "^GSPC",
     "trend": "uptrend",
-    "rsi": 60.0,
-    "pct_from_50dma": 1.41,
-    "pct_from_200dma": 8.16,
-    "momentum_20d": 1.92,
-    "notes": "RSI 60.0 (neutral)"
+    "rsi": 60.38,
+    "pct_from_50dma": 1.48,
+    "pct_from_200dma": 8.24,
+    "momentum_20d": 1.99,
+    "notes": "RSI 60.38 (neutral)"
   },
   "macro": {
     "regime": "risk-off",
-    "dxy_change_1w": -0.46,
-    "yield_10y_change_1w": 2.97,
-    "oil_change_1w": 5.5,
-    "gold_change_1w": 1.69,
-    "vix_level": 16.24,
-    "notes": "DXY -0.46%, 10Y yield +2.97%, Oil +5.50%, Gold +1.69%, VIX 16.24"
+    "dxy_change_1w": -0.49,
+    "yield_10y_change_1w": 2.92,
+    "oil_change_1w": 5.02,
+    "gold_change_1w": 1.88,
+    "vix_level": 16.04,
+    "notes": "DXY -0.49%, 10Y yield +2.92%, Oil +5.02%, Gold +1.88%, VIX 16.04"
   },
   "almanac": {
     "month": 7,
@@ -31,17 +31,26 @@
     {
       "model_name": "Nemotron",
       "direction": "up",
-      "range_low": 0.5,
-      "range_high": 4.0,
+      "range_low": 0.8,
+      "range_high": 2.5,
       "confidence": "medium",
-      "reasoning": "Despite risk\u2011off macro signals, the prevailing uptrend, positive 20\u2011day momentum and strong seasonal bias support a modest upside."
+      "reasoning": "Uptrend technicals and supportive seasonal bias outweigh mixed risk\u2011off macro signals, suggesting modest upside."
+    },
+    {
+      "model_name": "Laguna",
+      "direction": "up",
+      "range_low": 0.5,
+      "range_high": 2.0,
+      "confidence": "medium",
+      "reasoning": "Bullish technical momentum and seasonal trends outweigh risk-off macro headwinds, supporting modest upward price action."
     }
   ],
   "weighted_direction": "up",
-  "weighted_range_low": 0.5,
-  "weighted_range_high": 4.0,
+  "weighted_range_low": 0.65,
+  "weighted_range_high": 2.25,
   "weighted_confidence": "medium",
   "weights_used": {
-    "Nemotron": 1.0
+    "Nemotron": 0.5,
+    "Laguna": 0.5
   }
 }

@@ -4,20 +4,20 @@
   "technical": {
     "ticker": "IWM",
     "trend": "uptrend",
-    "rsi": 61.48,
-    "pct_from_50dma": 3.23,
-    "pct_from_200dma": 13.91,
-    "momentum_20d": 4.47,
-    "notes": "RSI 61.48 (neutral)"
+    "rsi": 61.63,
+    "pct_from_50dma": 3.28,
+    "pct_from_200dma": 13.95,
+    "momentum_20d": 4.51,
+    "notes": "RSI 61.63 (neutral)"
   },
   "macro": {
     "regime": "risk-off",
-    "dxy_change_1w": -0.46,
-    "yield_10y_change_1w": 2.97,
-    "oil_change_1w": 5.5,
-    "gold_change_1w": 1.69,
-    "vix_level": 16.24,
-    "notes": "DXY -0.46%, 10Y yield +2.97%, Oil +5.50%, Gold +1.69%, VIX 16.24"
+    "dxy_change_1w": -0.49,
+    "yield_10y_change_1w": 2.92,
+    "oil_change_1w": 5.02,
+    "gold_change_1w": 1.88,
+    "vix_level": 16.04,
+    "notes": "DXY -0.49%, 10Y yield +2.92%, Oil +5.02%, Gold +1.88%, VIX 16.04"
   },
   "almanac": {
     "month": 7,
@@ -31,35 +31,35 @@
     {
       "model_name": "Nemotron",
       "direction": "up",
-      "range_low": 0.5,
-      "range_high": 3.0,
-      "confidence": "medium",
-      "reasoning": "Technical uptrend and bullish seasonal bias outweigh modest risk\u2011off pressures, suggesting a likely gain over the next five days."
-    },
-    {
-      "model_name": "Gemma",
-      "direction": "up",
-      "range_low": -1.2,
+      "range_low": 0.8,
       "range_high": 2.5,
       "confidence": "medium",
-      "reasoning": "The strong technical uptrend and positive seasonal bias outweigh the mixed risk-off macro signals."
+      "reasoning": "Uptrend, bullish seasonal bias and positive momentum support gains despite risk-off macro."
+    },
+    {
+      "model_name": "GPT-OSS",
+      "direction": "up",
+      "range_low": 0.8,
+      "range_high": 2.0,
+      "confidence": "medium",
+      "reasoning": "The uptrend, positive 20\u2011day momentum and bullish seasonal bias outweigh the modest risk\u2011off macro backdrop, suggesting a modest upside over the next five sessions."
     },
     {
       "model_name": "Laguna",
       "direction": "up",
-      "range_low": 1.5,
-      "range_high": 3.0,
+      "range_low": -0.5,
+      "range_high": 1.5,
       "confidence": "medium",
-      "reasoning": "Seasonal bullish bias and positive momentum support the uptrend despite macro risk-off headwinds."
+      "reasoning": "Seasonal bullish bias and uptrend may push IWM higher despite risk-off macro conditions."
     }
   ],
   "weighted_direction": "up",
-  "weighted_range_low": 0.27,
-  "weighted_range_high": 2.83,
+  "weighted_range_low": 0.37,
+  "weighted_range_high": 2.0,
   "weighted_confidence": "medium",
   "weights_used": {
     "Nemotron": 0.3333,
-    "Gemma": 0.3333,
+    "GPT-OSS": 0.3333,
     "Laguna": 0.3333
   }
 }
