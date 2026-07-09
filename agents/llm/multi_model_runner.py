@@ -58,14 +58,15 @@ def build_prompt(ticker: str, technical: TechnicalOutput, macro: MacroOutput, al
         f"Seasonal bias for this month: {almanac.seasonal_bias} "
         f"(avg {almanac.avg_return_this_month*100:.1f}%, win rate {almanac.win_rate_this_month*100:.0f}% "
         f"over {almanac.years_of_history} years). "
-        f"Respond with ONLY a JSON object, no other text: "
+        f"Do not show your reasoning or thinking process. Respond with ONLY the JSON object below, "
+        f"nothing before it and nothing after it: "
         f'{{"direction": "up|down|flat", "range_low": <float percent>, "range_high": <float percent>, '
         f'"confidence": "low|medium|high", "reasoning": "<one sentence>"}}. '
         f"This is a probabilistic estimate for an educational project, not investment advice."
     )
 
 
-def extract_json(text) -> dict:
+def extract_json(text, raw_response=None) -> dict:
     """
     Pulls the first {...} block out of a model's raw response instead of
     assuming the whole string is valid JSON. Handles markdown fences, stray
@@ -73,7 +74,13 @@ def extract_json(text) -> dict:
     rather than crashing on .strip() against None.
     """
     if not text:
-        raise ValueError("empty response content")
+        # Surface WHY it was empty (finish_reason, any error field) instead of
+        # a bare "empty response content" that gives no debugging signal.
+        detail = ""
+        if raw_response:
+            choice = (raw_response.get("choices") or [{}])[0]
+            detail = f" (finish_reason={choice.get('finish_reason')!r}, raw_choice={choice!r})"
+        raise ValueError(f"empty response content{detail}")
     text = text.strip()
     text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
     match = re.search(r"\{.*\}", text, re.DOTALL)
@@ -86,7 +93,7 @@ def call_openrouter(api_key: str, model_id: str, prompt: str) -> dict:
     body = json.dumps({
         "model": model_id,
         "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 200,
+        "max_tokens": 700,  # reasoning models (e.g. Nemotron) spend tokens on their thinking trace before the JSON
     }).encode("utf-8")
 
     req = urllib.request.Request(
@@ -98,7 +105,7 @@ def call_openrouter(api_key: str, model_id: str, prompt: str) -> dict:
     with urllib.request.urlopen(req, timeout=45) as resp:
         data = json.loads(resp.read().decode("utf-8"))
     text = data["choices"][0]["message"].get("content")
-    return extract_json(text)
+    return extract_json(text, raw_response=data)
 
 
 def query_all_models(ticker: str, technical, macro, almanac) -> list[ModelCall]:
