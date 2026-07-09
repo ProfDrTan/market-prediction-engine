@@ -4,19 +4,20 @@ then combines their calls into one prediction using trust-weighted averaging
 instead of a simple majority vote or unweighted average (Team 1's approach).
 
 Requires OPENROUTER_API_KEY (free-tier models) as a GitHub Actions secret.
-Uses OpenRouter so multiple providers (not just Anthropic) are queried, matching
-Team 1's four-model comparison but with weights that evolve based on tracked
-accuracy.
 
-Reliability notes (added after the first live run surfaced real failures):
-- Free-tier OpenRouter models are rate-limited; firing 4 calls back-to-back
-  per ticker across 3 tickers triggered 429s. A short pacing delay plus a
-  single retry-on-429 fixes this without needing paid credits.
-- Some free models don't reliably return clean JSON even when asked to.
-  extract_json() pulls the first {...} block out of whatever text comes back
-  instead of assuming the whole response is valid JSON.
-- A model can return empty/None content; every step that touches the raw
-  text now guards against that instead of assuming a string.
+=== PROMPT FORMAT — CHANGED 2026-07-09, see build-log.html changelog ===
+This used to ask every model for ONLY a JSON object. That failed reliably for
+reasoning models (Nemotron, Laguna): they write out their thinking before the
+answer, and either burn the whole token budget before reaching the JSON, or
+produce JSON buried inside prose that a strict `json.loads` rejects outright.
+
+Team 1's repo (sinder38/Team-1-Prac-A-Project) hits and solves this exact
+problem: their system prompt explicitly says "DO NOT OUTPUT JSON FORMAT" and
+uses a plain KEY: value text format instead, parsed by scanning every line
+for a colon rather than trying to parse the whole response as one JSON blob.
+That parser degrades gracefully around reasoning text; a JSON parser doesn't.
+MPE now uses the same approach — see agents/llm/base_llm.py equivalent logic
+inlined below (MPE doesn't have a separate base_llm.py, so it lives here).
 """
 import json
 import os
@@ -33,7 +34,6 @@ from calibration.trust_weights import get_normalized_weights
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-# Free-tier models on OpenRouter, matching Team 1's multi-model approach
 MODELS = [
     {"name": "Nemotron", "id": "nvidia/nemotron-3-super-120b-a12b:free"},
     {"name": "GPT-OSS", "id": "openai/gpt-oss-120b:free"},
@@ -45,9 +45,17 @@ DIRECTION_TO_NUM = {"down": -1, "flat": 0, "up": 1}
 NUM_TO_DIRECTION = {-1: "down", 0: "flat", 1: "up"}
 CONFIDENCE_LEVELS = ["low", "medium", "high"]
 
-# Pacing between calls to stay under free-tier per-minute rate limits.
 CALL_DELAY_SECONDS = 4
 RETRY_DELAY_SECONDS = 12
+
+# System instruction — matches Team 1's wording closely, adapted to MPE's fields.
+SYSTEM_INSTRUCTION = (
+    "You are a strict financial data formatter. "
+    "You MUST output exactly the requested keys in PLAIN TEXT format, separated by colons. "
+    "DO NOT OUTPUT JSON FORMAT. "
+    "For the range, you MUST strictly use the word 'to' (e.g., 0.5 to 2.0). "
+    "Do NOT wrap your response in markdown code blocks."
+)
 
 
 def build_prompt(ticker: str, technical: TechnicalOutput, macro: MacroOutput, almanac: AlmanacOutput) -> str:
@@ -58,42 +66,76 @@ def build_prompt(ticker: str, technical: TechnicalOutput, macro: MacroOutput, al
         f"Seasonal bias for this month: {almanac.seasonal_bias} "
         f"(avg {almanac.avg_return_this_month*100:.1f}%, win rate {almanac.win_rate_this_month*100:.0f}% "
         f"over {almanac.years_of_history} years). "
-        f"Do not show your reasoning or thinking process. Respond with ONLY the JSON object below, "
-        f"nothing before it and nothing after it: "
-        f'{{"direction": "up|down|flat", "range_low": <float percent>, "range_high": <float percent>, '
-        f'"confidence": "low|medium|high", "reasoning": "<one sentence>"}}. '
+        f"Respond in this exact plain-text format, one field per line:\n"
+        f"DIRECTION: up, down, or flat\n"
+        f"RANGE_LOW: <float percent>\n"
+        f"RANGE_HIGH: <float percent>\n"
+        f"CONFIDENCE: low, medium, or high\n"
+        f"REASONING: <one sentence>\n"
         f"This is a probabilistic estimate for an educational project, not investment advice."
     )
 
 
-def extract_json(text, raw_response=None) -> dict:
+def parse_fields(text) -> dict:
     """
-    Pulls the first {...} block out of a model's raw response instead of
-    assuming the whole string is valid JSON. Handles markdown fences, stray
-    prose before/after the JSON, and raises a clear error on empty content
-    rather than crashing on .strip() against None.
+    Scans every line of the raw response for a `KEY: value` pattern, the same
+    way Team 1's base_llm.py does — tolerant of reasoning text, extra prose,
+    or markdown before/after the actual fields, instead of requiring the
+    entire response to be one parseable JSON blob.
     """
     if not text:
-        # Surface WHY it was empty (finish_reason, any error field) instead of
-        # a bare "empty response content" that gives no debugging signal.
-        detail = ""
-        if raw_response:
-            choice = (raw_response.get("choices") or [{}])[0]
-            detail = f" (finish_reason={choice.get('finish_reason')!r}, raw_choice={choice!r})"
-        raise ValueError(f"empty response content{detail}")
-    text = text.strip()
-    text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    if not match:
-        raise ValueError(f"no JSON object found in response: {text[:200]!r}")
-    return json.loads(match.group(0))
+        raise ValueError("empty response content")
+
+    lines = {
+        line.split(":", 1)[0].strip().upper(): line.split(":", 1)[1].strip()
+        for line in text.strip().splitlines()
+        if ":" in line
+    }
+
+    def require(key: str) -> str:
+        value = lines.get(key, "").strip()
+        if not value:
+            raise ValueError(f"missing required field '{key}' in response")
+        return value
+
+    def parse_range(key: str) -> tuple[float, float]:
+        val = require(key + "_LOW") if key == "RANGE" else require(key)
+        return val
+
+    direction_raw = require("DIRECTION").lower()
+    direction = next((d for d in ("up", "down", "flat") if d in direction_raw), None)
+    if direction is None:
+        raise ValueError(f"could not parse DIRECTION from {direction_raw!r}")
+
+    def parse_float_field(key: str) -> float:
+        val = require(key)
+        nums = re.findall(r"[-+]?\d*\.?\d+", val)
+        if not nums:
+            raise ValueError(f"no numeric value found for '{key}' in {val!r}")
+        return float(nums[0])
+
+    confidence_raw = require("CONFIDENCE").lower()
+    confidence = next((c for c in CONFIDENCE_LEVELS if c in confidence_raw), None)
+    if confidence is None:
+        raise ValueError(f"could not parse CONFIDENCE from {confidence_raw!r}")
+
+    return {
+        "direction": direction,
+        "range_low": parse_float_field("RANGE_LOW"),
+        "range_high": parse_float_field("RANGE_HIGH"),
+        "confidence": confidence,
+        "reasoning": lines.get("REASONING", "").strip(),
+    }
 
 
 def call_openrouter(api_key: str, model_id: str, prompt: str) -> dict:
     body = json.dumps({
         "model": model_id,
-        "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 700,  # reasoning models (e.g. Nemotron) spend tokens on their thinking trace before the JSON
+        "messages": [
+            {"role": "system", "content": SYSTEM_INSTRUCTION},
+            {"role": "user", "content": prompt},
+        ],
+        "max_tokens": 700,  # reasoning models spend tokens on their thinking trace first
     }).encode("utf-8")
 
     req = urllib.request.Request(
@@ -104,8 +146,12 @@ def call_openrouter(api_key: str, model_id: str, prompt: str) -> dict:
     )
     with urllib.request.urlopen(req, timeout=45) as resp:
         data = json.loads(resp.read().decode("utf-8"))
-    text = data["choices"][0]["message"].get("content")
-    return extract_json(text, raw_response=data)
+    choice = (data.get("choices") or [{}])[0]
+    text = choice.get("message", {}).get("content")
+    if not text:
+        detail = f" (finish_reason={choice.get('finish_reason')!r})"
+        raise ValueError(f"empty response content{detail}")
+    return parse_fields(text)
 
 
 def query_all_models(ticker: str, technical, macro, almanac) -> list[ModelCall]:
@@ -134,16 +180,21 @@ def query_all_models(ticker: str, technical, macro, almanac) -> list[ModelCall]:
 
 
 def _call_with_retry(api_key: str, model: dict, prompt: str) -> dict:
-    """One retry on 429 (rate limit) after a longer backoff; every other
-    error type is not worth retrying and fails immediately."""
-    try:
-        return call_openrouter(api_key, model["id"], prompt)
-    except urllib.error.HTTPError as e:
-        if e.code == 429:
-            print(f"  {model['name']}: 429, retrying once after {RETRY_DELAY_SECONDS}s")
-            time.sleep(RETRY_DELAY_SECONDS)
+    """Retry on ANY exception with exponential backoff (1s, 2s, 4s), matching
+    Team 1's approach — not just rate-limit errors specifically, since
+    transient failures aren't always a 429."""
+    max_retries = 3
+    last_exc = None
+    for attempt in range(max_retries):
+        try:
             return call_openrouter(api_key, model["id"], prompt)
-        raise
+        except Exception as e:
+            last_exc = e
+            if attempt < max_retries - 1:
+                delay = 2 ** attempt * RETRY_DELAY_SECONDS / 4  # 3s, 6s, 12s-ish backoff
+                print(f"  {model['name']}: {e}, retrying after {delay:.0f}s ({attempt+1}/{max_retries})")
+                time.sleep(delay)
+    raise last_exc
 
 
 def synthesize(ticker: str, model_calls: list[ModelCall]) -> SynthesisOutput:
