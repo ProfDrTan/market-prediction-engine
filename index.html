@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Weekly Almanac — Market Prediction Engine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#12100D; --ink-800:#1D1914; --ink-700:#282219;
+    --brass:#C7A153; --brass-dim:#8A7240;
+    --bull:#5B9E72; --bull-dim:rgba(91,158,114,.14);
+    --bear:#BD5A42; --bear-dim:rgba(189,90,66,.14);
+    --neutral:#8B8578;
+    --paper:#EDE6D3; --paper-dim:#A9A290;
+    --rule:#3A332A;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--ink-900); color:var(--paper);
+    font-family:'Inter',sans-serif; line-height:1.6;
+    background-image: radial-gradient(circle at 15% 0%, rgba(199,161,83,0.06), transparent 45%);
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:1040px;margin:0 auto;padding:40px 22px 80px;}
+
+  /* Masthead */
+  .masthead{border:1px solid var(--rule); border-radius:2px; padding:26px 28px; position:relative; overflow:hidden;}
+  .masthead::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg, var(--brass-dim) 0 1px, transparent 1px 44px); opacity:.15;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--brass); display:flex; justify-content:space-between; margin-bottom:14px;}
+  h1{font-family:'Fraunces',serif; font-weight:600; font-size:38px; margin:0 0 6px; letter-spacing:.2px;}
+  .subline{color:var(--paper-dim); font-size:14px; margin-bottom:20px;}
+  .call-row{display:flex; gap:28px; flex-wrap:wrap; align-items:baseline; border-top:1px solid var(--rule); padding-top:18px;}
+  .call-item .k{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--paper-dim); text-transform:uppercase;}
+  .call-item .v{font-family:'Fraunces',serif; font-size:20px; font-weight:600;}
+  .v.up{color:var(--bull);} .v.down{color:var(--bear);} .v.neutral{color:var(--neutral);}
+
+  /* Index scorecards */
+  .scorecards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:20px;}
+  .card{background:var(--ink-800); border:1px solid var(--rule); border-radius:2px; padding:18px;}
+  .card .ticker{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:2px; color:var(--brass); margin-bottom:6px;}
+  .card .price{font-family:'Fraunces',serif; font-size:26px; font-weight:600;}
+  .card .delta{font-family:'IBM Plex Mono',monospace; font-size:13px; margin-top:2px;}
+  .card .tech{margin-top:12px; padding-top:10px; border-top:1px solid var(--rule); font-size:12px; color:var(--paper-dim);}
+  .card .tech b{color:var(--paper);}
+
+  /* Sector Almanac Strip — signature element */
+  .section-label{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--brass); margin:34px 0 12px; display:flex; align-items:center; gap:10px;}
+  .section-label::after{content:""; flex:1; height:1px; background:var(--rule);}
+  .almanac-strip{display:flex; flex-wrap:wrap; gap:8px;}
+  .stamp{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; padding:8px 12px; border-radius:2px;
+    border:1px solid var(--rule); cursor:default; position:relative; min-width:82px; text-align:center;
+    transition:transform .15s;
+  }
+  .stamp:hover{transform:translateY(-2px);}
+  .stamp .tk{font-weight:700; letter-spacing:1px;}
+  .stamp .out{font-size:10px; margin-top:3px; opacity:.85;}
+  .stamp.bull{background:var(--bull-dim); border-color:var(--bull); color:var(--bull);}
+  .stamp.bear{background:var(--bear-dim); border-color:var(--bear); color:var(--bear);}
+  .stamp.neut{background:rgba(139,133,120,.1); border-color:var(--neutral); color:var(--neutral);}
+  .topbottom{display:flex; gap:24px; margin-top:14px; font-size:13px; flex-wrap:wrap;}
+  .topbottom .tb{flex:1; min-width:240px; background:var(--ink-800); border:1px solid var(--rule); padding:12px 14px; border-radius:2px;}
+  .topbottom .tb .lbl{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:2px; margin-bottom:4px;}
+  .topbottom .tb.top .lbl{color:var(--bull);} .topbottom .tb.bot .lbl{color:var(--bear);}
+
+  /* Reasoning ledger */
+  .ledger{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .ledger .col{background:var(--ink-800); border:1px solid var(--rule); padding:16px; border-radius:2px;}
+  .ledger .col h4{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--brass); margin:0 0 10px;}
+  .ledger .col ul{margin:0; padding-left:16px; font-size:12.5px; color:var(--paper-dim);}
+  .ledger .col li{margin-bottom:8px;}
+
+  /* Consensus row */
+  .consensus{display:flex; align-items:center; gap:20px; flex-wrap:wrap; background:var(--ink-800); border:1px solid var(--rule); padding:16px 18px; border-radius:2px; margin-top:14px;}
+  .models{display:flex; gap:10px;}
+  .model-chip{font-family:'IBM Plex Mono',monospace; font-size:11px; padding:5px 10px; border-radius:20px; border:1px solid var(--rule); background:var(--ink-700);}
+  .agree-text{font-size:13px; color:var(--paper-dim); flex:1; min-width:200px;}
+  .human-score{font-family:'Fraunces',serif; font-size:20px; font-weight:700; color:var(--brass);}
+
+  /* Calibration footer */
+  .calib{margin-top:34px; border-top:1px dashed var(--rule); padding-top:18px; font-size:13px; color:var(--paper-dim);}
+  .calib .row{display:flex; gap:18px; flex-wrap:wrap; margin-top:8px;}
+  .calib .pill{font-family:'IBM Plex Mono',monospace; font-size:11px; padding:4px 10px; border-radius:12px; border:1px solid var(--rule);}
+  .calib .pill.hit{color:var(--bull); border-color:var(--bull);}
+  .calib .pill.miss{color:var(--bear); border-color:var(--bear);}
+
+  .loading, .err{padding:60px 20px; text-align:center; color:var(--paper-dim); font-family:'IBM Plex Mono',monospace; font-size:13px;}
+  .err{color:var(--bear);}
+  footer{margin-top:40px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--paper-dim); text-align:right;}
+  footer a{color:var(--brass);}
+
+  @media (max-width:720px){
+    .scorecards{grid-template-columns:1fr;}
+    .ledger{grid-template-columns:1fr;}
+    h1{font-size:28px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="loading">Fetching the latest sprint from Team 2's repo&hellip;</div>
+</div>
+
+<script>
+const REPO = "LuJunwen212/CP3405-Project";
+const API = `https://api.github.com/repos/${REPO}/contents/`;
+
+async function listFiles() {
+  const r = await fetch(API, { cache: "no-store" });
+  if (!r.ok) throw new Error("Could not list repo (HTTP " + r.status + ")");
+  return r.json();
+}
+async function fetchRaw(path) {
+  const url = `https://raw.githubusercontent.com/${REPO}/main/${path}?t=${Date.now()}`;
+  const r = await fetch(url, { cache: "no-store" });
+  if (!r.ok) throw new Error("Missing " + path);
+  return r.text();
+}
+function latestWeek(files, prefix, suffix) {
+  let best = null, bestN = -1;
+  for (const f of files) {
+    const m = f.name.match(new RegExp(`^${prefix}(\\d+)${suffix}$`));
+    if (m) { const n = parseInt(m[1]); if (n > bestN) { bestN = n; best = f.name; } }
+  }
+  return best ? { name: best, week: bestN } : null;
+}
+
+function parsePredictionMd(md) {
+  const get = (label) => {
+    const m = md.match(new RegExp(label + ":\\s*(.+)"));
+    return m ? m[1].trim() : null;
+  };
+  const section = (name) => {
+    const m = md.match(new RegExp("###\\s*" + name + "\\s*\\n([\\s\\S]*?)(?=\\n###|\\n---)"));
+    if (!m) return {};
+    const block = m[1];
+    const g = (l) => { const mm = block.match(new RegExp(l + ":\\s*(.+)")); return mm ? mm[1].trim() : null; };
+    return { direction: g("Direction"), range: g("% Range"), confidence: g("Confidence") };
+  };
+  const bullets = (heading) => {
+    const m = md.match(new RegExp(heading + "\\s*\\n([\\s\\S]*?)(?=\\n###|\\n---|\\n##)"));
+    if (!m) return [];
+    return [...m[1].matchAll(/\*\s*(.+)/g)].map(x => x[1].trim());
+  };
+  const sectorTable = () => {
+    const rows = [...md.matchAll(/\|\s*(X[A-Z]{1,3})\s*\([^)]+\)\s*\|\s*([^\|]+?)\s*\|/g)];
+    return rows.map(r => ({ ticker: r[1], outlook: r[2].trim() }));
+  };
+  const filed = get("Filed");
+  const finalBias = md.match(/## Final Team View\s*\n\s*Bias:\s*(.+)/);
+  const finalDir = md.match(/Direction:\s*(Up|Down|Neutral)\s*\n\s*Confidence:\s*(.+)/);
+  const humanScore = md.match(/## Human Score Total\s*\n\s*([+\-]?\d+)/);
+  const consensusBlock = md.match(/## LLM Consensus\s*\n\s*(.+)\s*\n\n([\s\S]*?)(?=\n---|\n##)/);
+  const topSector = md.match(/### Top Sector\s*\n\s*(.+)/);
+  const botSector = md.match(/### Bottom Sector\s*\n\s*(.+)/);
+  const keyRisk = get("Key Risk");
+
+  return {
+    filed,
+    finalBias: finalBias ? finalBias[1].trim() : null,
+    finalDirection: finalDir ? finalDir[1].trim() : null,
+    finalConfidence: finalDir ? finalDir[2].trim() : null,
+    humanScore: humanScore ? humanScore[1] : null,
+    consensusLevel: consensusBlock ? consensusBlock[1].trim() : null,
+    consensusText: consensusBlock ? consensusBlock[2].trim() : null,
+    topSector: topSector ? topSector[1].trim() : null,
+    bottomSector: botSector ? botSector[1].trim() : null,
+    keyRisk,
+    idx: { SPX: section("SPX"), NDX: section("NDX"), IWM: section("IWM") },
+    sectors: sectorTable(),
+    evidence: bullets("### Key Evidence"),
+    contradiction: bullets("### Key Contradiction"),
+    invalidation: bullets("### Invalidation Condition"),
+  };
+}
+
+function outlookClass(o) {
+  o = (o||"").toLowerCase();
+  if (o.includes("bear")) return "bear";
+  if (o.includes("bull")) return "bull";
+  return "neut";
+}
+function outlookArrow(o) {
+  o = (o||"").toLowerCase();
+  if (o.includes("bear")) return "\u25bc";
+  if (o.includes("bull")) return "\u25b2";
+  return "\u2013";
+}
+function fmtDelta(v){ const n=Number(v); return (n>0?"+":"") + n.toFixed(2) + "%"; }
+
+async function build() {
+  const app = document.getElementById("app");
+  try {
+    const files = await listFiles();
+    const pred = latestWeek(files, "prediction_2026-W", "_team2\\.md");
+    const snap = latestWeek(files, "market_snapshot_W", "\\.json");
+    const tech = latestWeek(files, "technical_agent_W", "\\.json");
+    if (!pred) throw new Error("No prediction file found in repo listing.");
+
+    const [predMd, snapJson, techJson] = await Promise.all([
+      fetchRaw(pred.name),
+      snap ? fetchRaw(snap.name) : Promise.resolve(null),
+      tech ? fetchRaw(tech.name) : Promise.resolve(null),
+    ]);
+
+    const P = parsePredictionMd(predMd);
+    const S = snapJson ? JSON.parse(snapJson).metrics : {};
+    const T = techJson ? JSON.parse(techJson).metrics : {};
+
+    // try to find prior week's actuals for calibration
+    let calibHtml = "";
+    const actualFile = files.find(f => f.name.match(/^actual_2026-W\d+\.md$/) || f.name.match(/^actuals_2026-W\d+\.md$/));
+    if (actualFile) {
+      try {
+        const aMd = await fetchRaw(actualFile.name);
+        const spxLine = aMd.match(/S&P 500[^\n]*\|\s*([\-\d.]+%)\s*\|?\s*$/m) || aMd.match(/S&P 500.*?([\-+]?\d+\.?\d*%)/);
+        calibHtml = `<div class="calib">
+          <div class="section-label" style="margin-top:0">Latest Calibration Check &mdash; ${actualFile.name.replace('.md','')}</div>
+          <div>Most recent actuals on file for comparison against the team's prior call. Full record: <span class="mono">${actualFile.name}</span>.</div>
+        </div>`;
+      } catch(e) {}
+    }
+
+    const dirClass = (P.finalDirection||"").toLowerCase().includes("up") ? "up"
+                    : (P.finalDirection||"").toLowerCase().includes("down") ? "down" : "neutral";
+
+    const idxCard = (key) => {
+      const s = S[key], t = T[key], p = P.idx[key];
+      if (!s) return "";
+      return `<div class="card">
+        <div class="ticker">${key}</div>
+        <div class="price">${s.close_price.toLocaleString(undefined,{maximumFractionDigits:2})}</div>
+        <div class="delta ${s.weekly_delta_pct>=0?'v up':'v down'}">${fmtDelta(s.weekly_delta_pct)} this week</div>
+        <div class="tech">
+          ${t ? `<b>${t.trend}</b> &middot; ${t.bias}, ${t.confidence} conf<br>Support ${t.support?.toFixed(1)} / Resistance ${t.resistance?.toFixed(1)}` : ''}
+          ${p && p.direction ? `<br><b>Team call:</b> ${p.direction} (${p.range||'&mdash;'}, ${p.confidence||'&mdash;'} conf)` : ''}
+        </div>
+      </div>`;
+    };
+
+    const stampsHtml = P.sectors.map(sec => `
+      <div class="stamp ${outlookClass(sec.outlook)}">
+        <div class="tk">${sec.ticker}</div>
+        <div class="out">${outlookArrow(sec.outlook)} ${sec.outlook}</div>
+      </div>`).join("");
+
+    const listHtml = (arr) => arr.length ? `<ul>${arr.map(x=>`<li>${x}</li>`).join("")}</ul>` : `<div style="opacity:.5">&mdash;</div>`;
+
+    app.innerHTML = `
+      <div class="masthead">
+        <div class="eyebrow"><span>The Weekly Almanac</span><span>Team 2 &middot; Enhanced Feed</span></div>
+        <h1>Week ${pred.week} Reading</h1>
+        <div class="subline">Filed ${P.filed || '&mdash;'} &middot; Source: <span class="mono">${REPO}</span></div>
+        <div class="call-row">
+          <div class="call-item"><div class="k">Final Bias</div><div class="v ${dirClass}">${P.finalBias||'&mdash;'}</div></div>
+          <div class="call-item"><div class="k">Direction</div><div class="v ${dirClass}">${P.finalDirection||'&mdash;'}</div></div>
+          <div class="call-item"><div class="k">Confidence</div><div class="v">${P.finalConfidence||'&mdash;'}</div></div>
+          <div class="call-item"><div class="k">Human Score</div><div class="v" style="color:var(--brass)">${P.humanScore||'&mdash;'}</div></div>
+        </div>
+      </div>
+
+      <div class="scorecards">
+        ${idxCard("SPX")}${idxCard("NDX")}${idxCard("IWM")}
+      </div>
+
+      <div class="section-label">Sector Almanac</div>
+      <div class="almanac-strip">${stampsHtml || '<span style="opacity:.5">No sector table found in this week\\'s file.</span>'}</div>
+      <div class="topbottom">
+        <div class="tb top"><div class="lbl">TOP SECTOR</div>${P.topSector||'&mdash;'}</div>
+        <div class="tb bot"><div class="lbl">BOTTOM SECTOR</div>${P.bottomSector||'&mdash;'}</div>
+      </div>
+
+      <div class="section-label">The Reasoning Ledger</div>
+      <div class="ledger">
+        <div class="col"><h4>Key Evidence</h4>${listHtml(P.evidence)}</div>
+        <div class="col"><h4>Key Contradiction</h4>${listHtml(P.contradiction)}</div>
+        <div class="col"><h4>Invalidation Condition</h4>${listHtml(P.invalidation)}</div>
+      </div>
+
+      <div class="section-label">Model Consensus</div>
+      <div class="consensus">
+        <div class="models">
+          <span class="model-chip">ChatGPT</span><span class="model-chip">Claude</span>
+          <span class="model-chip">Gemini</span><span class="model-chip">DeepSeek</span>
+        </div>
+        <div class="agree-text"><b>${P.consensusLevel||''}</b> &mdash; ${P.consensusText||'No consensus notes found.'}</div>
+        <div class="human-score">Key risk: <span style="color:var(--paper);font-size:13px;font-weight:400">${P.keyRisk||'&mdash;'}</span></div>
+      </div>
+
+      ${calibHtml}
+
+      <footer>Live from <a href="https://github.com/${REPO}" target="_blank">github.com/${REPO}</a> &middot; refreshes on page load &middot; built for Prof Dr. Tan's Market Prediction Engine</footer>
+    `;
+  } catch (e) {
+    app.innerHTML = `<div class="err">Could not load live data: ${e.message}<br><br>The source repo may have renamed its files this sprint &mdash; check github.com/${REPO} directly.</div>`;
+  }
+}
+build();
+</script>
+</body>
+</html>
