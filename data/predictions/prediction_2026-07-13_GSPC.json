@@ -1,0 +1,65 @@
+{
+  "ticker": "^GSPC",
+  "prediction_date": "2026-07-13",
+  "technical": {
+    "ticker": "^GSPC",
+    "trend": "uptrend",
+    "rsi": 57.34,
+    "pct_from_50dma": 1.91,
+    "pct_from_200dma": 8.76,
+    "momentum_20d": 4.24,
+    "notes": "RSI 57.34 (neutral)"
+  },
+  "macro": {
+    "regime": "risk-off",
+    "dxy_change_1w": 0.06,
+    "yield_10y_change_1w": 1.87,
+    "oil_change_1w": 6.13,
+    "gold_change_1w": -1.76,
+    "vix_level": 16.18,
+    "notes": "DXY +0.06%, 10Y yield +1.87%, Oil +6.13%, Gold -1.76%, VIX 16.18"
+  },
+  "almanac": {
+    "month": 7,
+    "seasonal_bias": "bullish",
+    "avg_return_this_month": 0.0247,
+    "win_rate_this_month": 0.8,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 7; avg 2.47%, win rate 80%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "up",
+      "range_low": 0.5,
+      "range_high": 2.0,
+      "confidence": "medium",
+      "reasoning": "Uptrend technicals and seasonal bullish bias outweigh moderate risk\u2011off pressures, suggesting modest upside."
+    },
+    {
+      "model_name": "GPT-OSS",
+      "direction": "up",
+      "range_low": 0.5,
+      "range_high": 1.5,
+      "confidence": "medium",
+      "reasoning": "The prevailing uptrend and historically bullish seasonal bias support modest upside, though risk\u2011off macro conditions temper confidence."
+    },
+    {
+      "model_name": "Laguna",
+      "direction": "up",
+      "range_low": 0.5,
+      "range_high": 2.0,
+      "confidence": "medium",
+      "reasoning": "Technical uptrend and strong seasonal bias offset risk-off macro headwinds."
+    }
+  ],
+  "weighted_direction": "up",
+  "weighted_range_low": 0.5,
+  "weighted_range_high": 1.87,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 0.3506,
+    "GPT-OSS": 0.2533,
+    "Laguna": 0.3961
+  }
+}

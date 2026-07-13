@@ -1,0 +1,65 @@
+{
+  "ticker": "^NDX",
+  "prediction_date": "2026-07-13",
+  "technical": {
+    "ticker": "^NDX",
+    "trend": "uptrend",
+    "rsi": 44.6,
+    "pct_from_50dma": 1.48,
+    "pct_from_200dma": 13.75,
+    "momentum_20d": 4.62,
+    "notes": "RSI 44.6 (neutral)"
+  },
+  "macro": {
+    "regime": "risk-off",
+    "dxy_change_1w": 0.06,
+    "yield_10y_change_1w": 1.87,
+    "oil_change_1w": 6.13,
+    "gold_change_1w": -1.76,
+    "vix_level": 16.18,
+    "notes": "DXY +0.06%, 10Y yield +1.87%, Oil +6.13%, Gold -1.76%, VIX 16.18"
+  },
+  "almanac": {
+    "month": 7,
+    "seasonal_bias": "bullish",
+    "avg_return_this_month": 0.0363,
+    "win_rate_this_month": 0.85,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 7; avg 3.63%, win rate 85%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "up",
+      "range_low": 0.5,
+      "range_high": 3.5,
+      "confidence": "medium",
+      "reasoning": "The technical uptrend and positive momentum combined with"
+    },
+    {
+      "model_name": "GPT-OSS",
+      "direction": "up",
+      "range_low": 0.5,
+      "range_high": 1.5,
+      "confidence": "medium",
+      "reasoning": "The technical uptrend and strong historical seasonal bias outweigh the neutral RSI and risk\u2011off macro backdrop, suggesting a modest upside over the next five trading days."
+    },
+    {
+      "model_name": "Laguna",
+      "direction": "up",
+      "range_low": 1.5,
+      "range_high": 3.5,
+      "confidence": "medium",
+      "reasoning": "Seasonal bullish bias and positive momentum outweigh moderate risk-off macro pressure."
+    }
+  ],
+  "weighted_direction": "up",
+  "weighted_range_low": 0.9,
+  "weighted_range_high": 2.99,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 0.3506,
+    "GPT-OSS": 0.2533,
+    "Laguna": 0.3961
+  }
+}

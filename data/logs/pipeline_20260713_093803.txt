@@ -1,0 +1,30 @@
+Running pipeline for ^GSPC...
+  Technical: uptrend, RSI 57.34
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Gemma: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  Gemma: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 404: Not Found
+  Synthesized: up (0.5% to 1.87%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-07-13_GSPC.json
+Running pipeline for ^NDX...
+  Technical: uptrend, RSI 44.6
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Nemotron: no numeric value found for 'RANGE_LOW' in '<float percent>', retrying after 3s (1/3)
+  Gemma: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  Gemma: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 404: Not Found
+  Synthesized: up (0.9% to 2.99%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-07-13_NDX.json
+Running pipeline for IWM...
+  Technical: uptrend, RSI 50.74
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Gemma: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  Gemma: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 404: Not Found
+  Synthesized: up (0.63% to 2.11%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-07-13_IWM.json
+
+PYTHON EXIT CODE: 0
