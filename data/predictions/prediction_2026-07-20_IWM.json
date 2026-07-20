@@ -1,0 +1,56 @@
+{
+  "ticker": "IWM",
+  "prediction_date": "2026-07-20",
+  "technical": {
+    "ticker": "IWM",
+    "trend": "uptrend",
+    "rsi": 37.68,
+    "pct_from_50dma": 1.42,
+    "pct_from_200dma": 12.05,
+    "momentum_20d": 1.44,
+    "notes": "RSI 37.68 (neutral)"
+  },
+  "macro": {
+    "regime": "risk-on",
+    "dxy_change_1w": -0.5,
+    "yield_10y_change_1w": -0.61,
+    "oil_change_1w": 4.18,
+    "gold_change_1w": 0.7,
+    "vix_level": 18.57,
+    "notes": "DXY -0.50%, 10Y yield -0.61%, Oil +4.18%, Gold +0.70%, VIX 18.57"
+  },
+  "almanac": {
+    "month": 7,
+    "seasonal_bias": "bullish",
+    "avg_return_this_month": 0.0214,
+    "win_rate_this_month": 0.65,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 7; avg 2.14%, win rate 65%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "up",
+      "range_low": 0.8,
+      "range_high": 2.5,
+      "confidence": "medium",
+      "reasoning": "The uptrend, risk\u2011on macro environment, and seasonal bullish bias support upside, while RSI near neutral tempers confidence."
+    },
+    {
+      "model_name": "Laguna",
+      "direction": "up",
+      "range_low": 0.5,
+      "range_high": 2.0,
+      "confidence": "medium",
+      "reasoning": "Uptrend with positive momentum aligns with risk-on macro and bullish seasonal bias, though RSI near oversold suggests potential consolidation before further upside."
+    }
+  ],
+  "weighted_direction": "up",
+  "weighted_range_low": 0.64,
+  "weighted_range_high": 2.23,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 0.4695,
+    "Laguna": 0.5305
+  }
+}
