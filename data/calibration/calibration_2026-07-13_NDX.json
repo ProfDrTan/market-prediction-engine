@@ -1,0 +1,28 @@
+{
+  "ticker": "^NDX",
+  "week_start": "2026-07-13",
+  "actual_pct": -2.29,
+  "actual_direction": "down",
+  "model_scores": [
+    {
+      "model_name": "Nemotron",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.3323
+    },
+    {
+      "model_name": "GPT-OSS",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.2401
+    },
+    {
+      "model_name": "Laguna",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.3755
+    }
+  ],
+  "synthesis_direction_correct": false,
+  "synthesis_range_hit": false
+}

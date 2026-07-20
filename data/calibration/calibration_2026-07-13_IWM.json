@@ -1,0 +1,28 @@
+{
+  "ticker": "IWM",
+  "week_start": "2026-07-13",
+  "actual_pct": 0.19,
+  "actual_direction": "flat",
+  "model_scores": [
+    {
+      "model_name": "Nemotron",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.4747
+    },
+    {
+      "model_name": "GPT-OSS",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.343
+    },
+    {
+      "model_name": "Laguna",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.5365
+    }
+  ],
+  "synthesis_direction_correct": false,
+  "synthesis_range_hit": false
+}
