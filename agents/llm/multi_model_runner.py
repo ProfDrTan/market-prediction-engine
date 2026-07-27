@@ -36,7 +36,7 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 MODELS = [
     {"name": "Nemotron", "id": "nvidia/nemotron-3-super-120b-a12b:free"},
-    {"name": "GPT-OSS", "id": "openai/gpt-oss-120b:free"},
+    {"name": "GPT-OSS", "id": "openai/gpt-oss-20b:free"},
     {"name": "Gemma", "id": "google/gemma-4-31b-it:free"},
     {"name": "Laguna", "id": "poolside/laguna-m.1:free"},
 ]
