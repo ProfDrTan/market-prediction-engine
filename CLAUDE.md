@@ -36,10 +36,16 @@ for the automated replacement.
   run. No `agents/evidence/` yet (Team 1 has one; we don't).
 - `agents/llm/multi_model_runner.py` — queries 4 free OpenRouter models
   (Nemotron, GPT-OSS, Gemma, Laguna), synthesizes via trust-weighted
-  averaging. Known fragility here: free-tier rate limits (429s) and
-  inconsistent JSON from some models — both have pacing/retry/parsing
-  fixes already in place, but if you see failures, check
-  `data/logs/pipeline_*.txt` first (see below) before assuming new bugs.
+  averaging. Known fragility here: free-tier rate limits (429s, Gemma and
+  Laguna most weeks — a real OpenRouter free-tier ceiling, not a bug, and
+  the pipeline already degrades gracefully by synthesizing from whichever
+  models respond) and inconsistent JSON from some models — both have
+  pacing/retry/parsing fixes already in place. **2026-07-27:** GPT-OSS was
+  404ing every run because `openai/gpt-oss-120b:free` had been delisted from
+  OpenRouter's free tier; swapped to `openai/gpt-oss-20b:free` and verified
+  live. If a model starts consistently 404ing (not 429ing), check whether
+  it's still listed on OpenRouter before assuming a code bug — free-tier
+  model availability changes without notice.
 - `calibration/` — trust weight EMA + automated scoring against actuals.
 - `run_pipeline.py` — orchestrates a full weekly run for SPX/NDX/IWM only
   (Team 1 tracks 9 assets including macro hedges — we don't yet).
@@ -53,10 +59,13 @@ for the automated replacement.
 1. Check `data/logs/pipeline_*.txt` (or `score_*.txt`) for the run in
    question FIRST — these are committed to the repo and contain the
    Python exit code plus a full `find data -type f` listing.
-2. A workflow showing green/"success" in GitHub's UI does NOT mean it
-   produced output — a script can exit 0 while silently writing nothing
-   if a git-add path is empty. Always cross-check the log content against
-   what's actually in `data/predictions/` etc.
+2. A workflow showing green/"success" in GitHub's UI does NOT automatically
+   mean it produced output — `weekly-pipeline.yml` now has a real check for
+   this (added 2026-07-27, after this exact gap masked a 404 for weeks): a
+   step that counts today's prediction files and fails the run if fewer
+   than 3 exist. Still cross-check log content against `data/predictions/`
+   if something looks off — the check catches "zero output," not "wrong
+   output."
 3. **You (running locally via Claude Code) have normal internet access**
    and can use `gh run view --log` directly if you need the full raw
    Actions log — this is a real advantage over debugging through
