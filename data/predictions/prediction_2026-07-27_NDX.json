@@ -12,12 +12,12 @@
   },
   "macro": {
     "regime": "risk-off",
-    "dxy_change_1w": 0.46,
+    "dxy_change_1w": 0.52,
     "yield_10y_change_1w": 2.93,
-    "oil_change_1w": 2.37,
-    "gold_change_1w": 2.07,
-    "vix_level": 18.7,
-    "notes": "DXY +0.46%, 10Y yield +2.93%, Oil +2.37%, Gold +2.07%, VIX 18.7"
+    "oil_change_1w": -0.87,
+    "gold_change_1w": 2.26,
+    "vix_level": 17.59,
+    "notes": "DXY +0.52%, 10Y yield +2.93%, Oil -0.87%, Gold +2.26%, VIX 17.59"
   },
   "almanac": {
     "month": 7,
@@ -31,35 +31,35 @@
     {
       "model_name": "Nemotron",
       "direction": "up",
-      "range_low": 0.0,
-      "range_high": 2.5,
+      "range_low": 0.5,
+      "range_high": 2.0,
       "confidence": "medium",
-      "reasoning": "Despite risk-off pressures, the oversold RSI and strong historical seasonal bias suggest a modest upside potential for the NDX over the next five days."
+      "reasoning": "..."
     },
     {
       "model_name": "GPT-OSS",
       "direction": "flat",
-      "range_low": -1.5,
-      "range_high": 1.5,
+      "range_low": -0.5,
+      "range_high": 0.5,
       "confidence": "medium",
-      "reasoning": "Sideways trend and risk\u2011off macro weigh against the seasonal bullish bias, suggesting a near\u2011flat move."
+      "reasoning": "Trend is sideways and macro conditions are risk\u2011off, which outweigh the seasonal bullish bias, so the expected move is a tight flat range."
     },
     {
       "model_name": "Laguna",
       "direction": "up",
-      "range_low": 1.0,
+      "range_low": 0.5,
       "range_high": 2.5,
       "confidence": "medium",
-      "reasoning": "Despite the risk-off macro headwinds and slightly bearish technicals, the strong bullish seasonal bias (85% win rate) likely outweighs near-term pressure, suggesting modest upward potential."
+      "reasoning": "Seasonal bullish bias and modest technical support at RSI 35.6 suggest limited upward momentum, but risk-off macro headwinds cap upside potential."
     }
   ],
   "weighted_direction": "up",
-  "weighted_range_low": 0.02,
-  "weighted_range_high": 2.25,
+  "weighted_range_low": 0.0,
+  "weighted_range_high": 1.39,
   "weighted_confidence": "medium",
   "weights_used": {
-    "Nemotron": 0.3506,
-    "GPT-OSS": 0.2533,
-    "Laguna": 0.3961
+    "Nemotron": 0.2361,
+    "GPT-OSS": 0.4972,
+    "Laguna": 0.2667
   }
 }

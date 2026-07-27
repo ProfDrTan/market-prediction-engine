@@ -1,0 +1,31 @@
+Running pipeline for ^GSPC...
+  Technical: sideways, RSI 38.48
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 3s (1/3)
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: HTTP Error 429: Too Many Requests, retrying after 3s (1/3)
+  Laguna: HTTP Error 429: Too Many Requests, retrying after 6s (2/3)
+  Synthesized: up (-0.58% to 1.63%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-07-27_GSPC.json
+Running pipeline for ^NDX...
+  Technical: sideways, RSI 35.6
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 3s (1/3)
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Synthesized: up (0.0% to 1.39%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-07-27_NDX.json
+Running pipeline for IWM...
+  Technical: sideways, RSI 37.56
+  Almanac: bullish bias for month 7
+  Macro regime: risk-off
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 3s (1/3)
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Synthesized: flat (-0.5% to 1.25%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-07-27_IWM.json
+
+PYTHON EXIT CODE: 0
