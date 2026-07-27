@@ -60,3 +60,13 @@ jobs:
             git push
           fi
           exit 0
+
+      - name: Fail the run if no predictions were actually produced
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          COUNT=$(ls data/predictions/prediction_${TODAY}_*.json 2>/dev/null | wc -l)
+          echo "Predictions written today: $COUNT"
+          if [ "$COUNT" -lt 3 ]; then
+            echo "::error::Expected 3 prediction files (GSPC, NDX, IWM) for $TODAY, found $COUNT. Check the log artifact committed above."
+            exit 1
+          fi
