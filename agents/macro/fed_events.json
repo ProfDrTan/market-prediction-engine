@@ -1,0 +1,15 @@
+{
+  "events": [
+    {
+      "date": "2026-07-29",
+      "type": "FOMC",
+      "vote_hold": 9,
+      "dissents_for_hike": 3,
+      "dissents_for_cut": 0,
+      "market_initial_read": "dovish",
+      "yield_10y_reaction_bps": 5,
+      "yield_30y_reaction_bps": 9,
+      "notes": "Warsh's press conference was widely read as dovish (declined to celebrate a soft inflation print, gave vague answers). But 3 hawkish dissents (most in nearly a decade) plus his hawkish prepared remarks (strict 2% target) point the other way. Long yields rose on the day rather than falling, which is itself inconsistent with a genuinely dovish read -- consistent with markets pricing in inflation-risk premium rather than easier policy."
+    }
+  ]
+}
