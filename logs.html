@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Logs — Market Prediction Engine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink-900:#12100D; --ink-800:#1D1914; --rule:#3A332A; --brass:#C7A153;
+    --bear:#BD5A42; --paper:#EDE6D3; --paper-dim:#A9A290; }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ink-900); color:var(--paper); font-family:'Inter',sans-serif; line-height:1.6;}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 22px 80px;}
+  nav{display:flex; gap:22px; padding:14px 0 22px; border-bottom:1px solid var(--rule); margin-bottom:26px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase;}
+  nav a{color:var(--paper-dim); text-decoration:none;} nav a:hover, nav a.active{color:var(--brass);}
+  nav .navbrand{color:var(--brass); font-weight:700; margin-right:auto;}
+  h1{font-family:'Fraunces',serif; font-weight:600; font-size:30px; margin:0 0 4px;}
+  .subline{color:var(--paper-dim); font-size:13px; margin-bottom:20px;}
+  select{background:var(--ink-800); color:var(--paper); border:1px solid var(--rule); padding:6px 10px; font-family:'IBM Plex Mono',monospace; font-size:12px; border-radius:2px;}
+  pre{background:var(--ink-800); border:1px solid var(--rule); border-radius:2px; padding:16px; margin-top:16px;
+      font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--paper-dim); white-space:pre-wrap; overflow-x:auto; max-height:70vh; overflow-y:auto;}
+  .err{color:var(--bear); padding:20px; border:1px solid var(--bear); border-radius:2px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="navbrand">TEAM ULTRA</span>
+    <a href="index.html">Dashboard</a>
+    <a href="agents.html">Agents</a>
+    <a href="calibration.html">Calibration</a>
+    <a href="logs.html" class="active">Logs</a>
+  </nav>
+  <h1>Pipeline Logs</h1>
+  <div class="subline">Raw output from every weekly run — the ground truth if a number ever looks wrong.</div>
+  <select id="logSelect"></select>
+  <pre id="logBody">Loading…</pre>
+</div>
+
+<script>
+async function loadLog(fname) {
+  const body = document.getElementById("logBody");
+  body.textContent = "Loading…";
+  try {
+    const txt = await fetch(`data/logs/${fname}`).then(r => r.text());
+    body.textContent = txt || "(empty log file)";
+  } catch(e) {
+    body.textContent = `Could not load ${fname}: ${e.message}`;
+  }
+}
+
+async function init() {
+  const manifest = await fetch("data/manifest.json").then(r => r.json());
+  const logs = [...manifest.logs].sort().reverse();
+  const sel = document.getElementById("logSelect");
+  sel.innerHTML = logs.map(l => `<option value="${l}">${l}</option>`).join("");
+  sel.addEventListener("change", () => loadLog(sel.value));
+  if (logs.length) loadLog(logs[0]);
+  else document.getElementById("logBody").textContent = "No logs on file yet.";
+}
+init();
+</script>
+</body>
+</html>
