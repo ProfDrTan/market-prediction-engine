@@ -1,0 +1,51 @@
+{
+  "generated": "2026-08-03T15:22:56.838513Z",
+  "predictions": [
+    "prediction_2026-07-09_GSPC.json",
+    "prediction_2026-07-09_IWM.json",
+    "prediction_2026-07-09_NDX.json",
+    "prediction_2026-07-13_GSPC.json",
+    "prediction_2026-07-13_IWM.json",
+    "prediction_2026-07-13_NDX.json",
+    "prediction_2026-07-20_GSPC.json",
+    "prediction_2026-07-20_IWM.json",
+    "prediction_2026-07-20_NDX.json",
+    "prediction_2026-07-27_GSPC.json",
+    "prediction_2026-07-27_IWM.json",
+    "prediction_2026-07-27_NDX.json",
+    "prediction_2026-08-03_GSPC.json",
+    "prediction_2026-08-03_IWM.json",
+    "prediction_2026-08-03_NDX.json"
+  ],
+  "calibration": [
+    "calibration_2026-07-09_GSPC.json",
+    "calibration_2026-07-09_IWM.json",
+    "calibration_2026-07-09_NDX.json",
+    "calibration_2026-07-13_GSPC.json",
+    "calibration_2026-07-13_IWM.json",
+    "calibration_2026-07-13_NDX.json",
+    "calibration_2026-07-20_GSPC.json",
+    "calibration_2026-07-20_IWM.json",
+    "calibration_2026-07-20_NDX.json",
+    "calibration_2026-07-27_GSPC.json",
+    "calibration_2026-07-27_IWM.json",
+    "calibration_2026-07-27_NDX.json"
+  ],
+  "logs": [
+    "pipeline_20260708_162907.txt",
+    "pipeline_20260708_163256.txt",
+    "pipeline_20260709_154138.txt",
+    "pipeline_20260709_154608.txt",
+    "pipeline_20260709_164149.txt",
+    "pipeline_20260713_093803.txt",
+    "pipeline_20260720_092520.txt",
+    "pipeline_20260727_041009.txt",
+    "pipeline_20260727_100105.txt",
+    "pipeline_20260803_095605.txt"
+  ],
+  "tickers": [
+    "GSPC",
+    "NDX",
+    "IWM"
+  ]
+}
