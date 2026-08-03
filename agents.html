@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agents — Market Prediction Engine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#12100D; --ink-800:#1D1914; --rule:#3A332A;
+    --brass:#C7A153; --bull:#5B9E72; --bear:#BD5A42; --neutral:#8B8578;
+    --paper:#EDE6D3; --paper-dim:#A9A290;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ink-900); color:var(--paper); font-family:'Inter',sans-serif; line-height:1.6;}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 22px 80px;}
+  nav{display:flex; gap:22px; padding:14px 0 22px; border-bottom:1px solid var(--rule); margin-bottom:26px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase;}
+  nav a{color:var(--paper-dim); text-decoration:none;} nav a:hover, nav a.active{color:var(--brass);}
+  nav .navbrand{color:var(--brass); font-weight:700; margin-right:auto;}
+  h1{font-family:'Fraunces',serif; font-weight:600; font-size:30px; margin:0 0 4px;}
+  .subline{color:var(--paper-dim); font-size:13px; margin-bottom:20px;}
+  select{background:var(--ink-800); color:var(--paper); border:1px solid var(--rule); padding:6px 10px; font-family:'IBM Plex Mono',monospace; font-size:12px; border-radius:2px; margin-right:10px;}
+  .section-label{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--brass); margin:30px 0 12px; display:flex; align-items:center; gap:10px;}
+  .section-label::after{content:""; flex:1; height:1px; background:var(--rule);}
+  .agent-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .agent-card{background:var(--ink-800); border:1px solid var(--rule); border-radius:2px; padding:16px;}
+  .agent-card h4{margin:0 0 10px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:2px; color:var(--brass); text-transform:uppercase;}
+  .agent-card .row{font-size:12.5px; color:var(--paper-dim); margin:5px 0;}
+  .agent-card .row b{color:var(--paper);}
+  .agent-card .notes{margin-top:10px; padding-top:10px; border-top:1px solid var(--rule); font-size:12px; font-style:italic; color:var(--paper-dim);}
+  .llm-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:14px;}
+  .llm-card{background:var(--ink-800); border:1px solid var(--rule); border-radius:2px; padding:16px;}
+  .llm-card .name{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--brass); font-weight:700; letter-spacing:1px;}
+  .llm-card .call{font-family:'Fraunces',serif; font-size:18px; margin:8px 0 4px;}
+  .llm-card .call.up{color:var(--bull);} .llm-card .call.down{color:var(--bear);} .llm-card .call.flat{color:var(--neutral);}
+  .llm-card .range{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--paper-dim);}
+  .llm-card .reasoning{font-size:12.5px; color:var(--paper-dim); margin-top:10px; font-style:italic; line-height:1.5;}
+  .llm-card .weight{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--paper-dim); margin-top:10px; padding-top:10px; border-top:1px solid var(--rule);}
+  .synth-banner{background:linear-gradient(135deg, rgba(199,161,83,.08), transparent); border:1px solid var(--brass); border-radius:2px; padding:16px 18px; margin-top:16px;}
+  .synth-banner .lbl{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--brass); text-transform:uppercase;}
+  .synth-banner .val{font-family:'Fraunces',serif; font-size:22px; margin-top:4px;}
+  .err{color:var(--bear); padding:20px; border:1px solid var(--bear); border-radius:2px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="navbrand">TEAM ULTRA</span>
+    <a href="index.html">Dashboard</a>
+    <a href="agents.html" class="active">Agents</a>
+    <a href="calibration.html">Calibration</a>
+    <a href="logs.html">Logs</a>
+  </nav>
+  <h1>Agent &amp; Model Breakdown</h1>
+  <div class="subline">Every input, every model, every rationale — not just the final call.</div>
+  <div style="margin-bottom:20px;">
+    <select id="dateSelect"></select>
+    <select id="tickerSelect">
+      <option value="GSPC">S&P 500 (GSPC)</option>
+      <option value="NDX" selected>Nasdaq 100 (NDX)</option>
+      <option value="IWM">Russell 2000 (IWM)</option>
+    </select>
+  </div>
+  <div id="app">Loading…</div>
+</div>
+
+<script>
+function dirClass(d){ d=(d||"").toLowerCase(); if(d.includes("up")) return "up"; if(d.includes("down")) return "down"; return "flat"; }
+function fmtPct(v){ if (v===null||v===undefined||Number.isNaN(v)) return "—"; const n=Number(v); return (n>0?"+":"") + n.toFixed(2) + "%"; }
+
+let MANIFEST, DATES;
+
+async function render() {
+  const app = document.getElementById("app");
+  const date = document.getElementById("dateSelect").value;
+  const ticker = document.getElementById("tickerSelect").value;
+  const fname = `prediction_${date}_${ticker}.json`;
+  if (!MANIFEST.predictions.includes(fname)) {
+    app.innerHTML = `<div class="err">No prediction on file for ${ticker} on ${date}.</div>`;
+    return;
+  }
+  try {
+    const p = await fetch(`data/predictions/${fname}`).then(r => r.json());
+    const t = p.technical || {}, m = p.macro || {}, a = p.almanac || {};
+
+    const llmCards = (p.model_calls || []).map(mc => `
+      <div class="llm-card">
+        <div class="name">${mc.model_name}</div>
+        <div class="call ${dirClass(mc.direction)}">${(mc.direction||'—').toUpperCase()}</div>
+        <div class="range">${fmtPct(mc.range_low)} to ${fmtPct(mc.range_high)} · ${mc.confidence||'—'} conf</div>
+        <div class="reasoning">"${mc.reasoning || 'No reasoning recorded.'}"</div>
+        <div class="weight">Trust weight this run: ${p.weights_used?.[mc.model_name] !== undefined ? (p.weights_used[mc.model_name]*100).toFixed(1)+'%' : '—'}</div>
+      </div>`).join("");
+
+    app.innerHTML = `
+      <div class="section-label">Three Independent Agents</div>
+      <div class="agent-grid">
+        <div class="agent-card">
+          <h4>Technical</h4>
+          <div class="row"><b>Trend:</b> ${t.trend||'—'}</div>
+          <div class="row"><b>RSI:</b> ${t.rsi ?? '—'}</div>
+          <div class="row"><b>vs 50DMA:</b> ${Number.isFinite(t.pct_from_50dma) ? fmtPct(t.pct_from_50dma) : '—'}</div>
+          <div class="row"><b>vs 200DMA:</b> ${Number.isFinite(t.pct_from_200dma) ? fmtPct(t.pct_from_200dma) : '—'}</div>
+          <div class="notes">${t.notes||''}</div>
+        </div>
+        <div class="agent-card">
+          <h4>Macro</h4>
+          <div class="row"><b>Regime:</b> ${m.regime||'—'}</div>
+          <div class="row"><b>DXY 1w:</b> ${fmtPct(m.dxy_change_1w)}</div>
+          <div class="row"><b>10Y Yield 1w:</b> ${fmtPct(m.yield_10y_change_1w)}</div>
+          <div class="row"><b>Oil 1w:</b> ${fmtPct(m.oil_change_1w)} · <b>Gold 1w:</b> ${fmtPct(m.gold_change_1w)}</div>
+          <div class="row"><b>VIX:</b> ${m.vix_level ?? '—'}</div>
+          <div class="notes">${m.notes||''}</div>
+        </div>
+        <div class="agent-card">
+          <h4>Almanac</h4>
+          <div class="row"><b>Seasonal bias:</b> ${a.seasonal_bias||'—'}</div>
+          <div class="row"><b>Avg return this month:</b> ${fmtPct((a.avg_return_this_month||0)*100)}</div>
+          <div class="row"><b>Win rate:</b> ${((a.win_rate_this_month||0)*100).toFixed(0)}%</div>
+          <div class="row"><b>History:</b> ${a.years_of_history||'—'} years</div>
+          <div class="notes">${a.notes||''}</div>
+        </div>
+      </div>
+
+      <div class="section-label">Each Model's Independent Call</div>
+      <div class="llm-grid">${llmCards || '<span style="color:var(--paper-dim)">No model calls recorded.</span>'}</div>
+
+      <div class="synth-banner">
+        <div class="lbl">Trust-Weighted Synthesis</div>
+        <div class="val ${dirClass(p.weighted_direction)}">${(p.weighted_direction||'—').toUpperCase()} · ${fmtPct(p.weighted_range_low)} to ${fmtPct(p.weighted_range_high)} · ${p.weighted_confidence||'—'} confidence</div>
+      </div>
+    `;
+  } catch(e) {
+    app.innerHTML = `<div class="err">Could not load: ${e.message}</div>`;
+  }
+}
+
+async function init() {
+  MANIFEST = await fetch("data/manifest.json").then(r => r.json());
+  DATES = [...new Set(MANIFEST.predictions.map(f => f.match(/prediction_([\d-]+)_/)[1]))].sort().reverse();
+  const dateSelect = document.getElementById("dateSelect");
+  dateSelect.innerHTML = DATES.map(d => `<option value="${d}">${d}</option>`).join("");
+  dateSelect.addEventListener("change", render);
+  document.getElementById("tickerSelect").addEventListener("change", render);
+  render();
+}
+init();
+</script>
+</body>
+</html>
