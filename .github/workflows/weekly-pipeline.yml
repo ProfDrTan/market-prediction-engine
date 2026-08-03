@@ -46,6 +46,24 @@ jobs:
           echo "---------------------------------"
           exit 0
 
+      - name: Regenerate data manifest for the front end
+        run: |
+          python3 - << 'PYEOF'
+          import json, os
+          def listing(d):
+              return sorted(f for f in os.listdir(d)) if os.path.isdir(d) else []
+          manifest = {
+              "generated": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+              "predictions": listing("data/predictions"),
+              "calibration": listing("data/calibration"),
+              "logs": listing("data/logs"),
+              "tickers": ["GSPC", "NDX", "IWM"],
+          }
+          with open("data/manifest.json", "w") as f:
+              json.dump(manifest, f, indent=2)
+          print("Manifest written:", manifest["generated"])
+          PYEOF
+
       - name: Commit and push new predictions and logs
         run: |
           set +e
