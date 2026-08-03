@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Calibration — Market Prediction Engine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink-900:#12100D; --ink-800:#1D1914; --rule:#3A332A; --brass:#C7A153;
+    --bull:#5B9E72; --bear:#BD5A42; --neutral:#8B8578; --paper:#EDE6D3; --paper-dim:#A9A290; }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ink-900); color:var(--paper); font-family:'Inter',sans-serif; line-height:1.6;}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 22px 80px;}
+  nav{display:flex; gap:22px; padding:14px 0 22px; border-bottom:1px solid var(--rule); margin-bottom:26px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase;}
+  nav a{color:var(--paper-dim); text-decoration:none;} nav a:hover, nav a.active{color:var(--brass);}
+  nav .navbrand{color:var(--brass); font-weight:700; margin-right:auto;}
+  h1{font-family:'Fraunces',serif; font-weight:600; font-size:30px; margin:0 0 4px;}
+  .subline{color:var(--paper-dim); font-size:13px; margin-bottom:24px;}
+  .section-label{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--brass); margin:30px 0 14px; display:flex; align-items:center; gap:10px;}
+  .section-label::after{content:""; flex:1; height:1px; background:var(--rule);}
+  .weight-row{display:flex; align-items:center; gap:14px; margin-bottom:12px;}
+  .weight-row .name{font-family:'IBM Plex Mono',monospace; font-size:12px; width:90px; color:var(--paper-dim);}
+  .weight-row .bar-track{flex:1; background:var(--ink-800); border:1px solid var(--rule); border-radius:2px; height:24px; position:relative; overflow:hidden;}
+  .weight-row .bar-fill{height:100%; background:linear-gradient(90deg, var(--brass-dim,#8A7240), var(--brass)); transition:width .3s;}
+  .weight-row .val{font-family:'IBM Plex Mono',monospace; font-size:12px; width:52px; text-align:right;}
+  table{width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px;}
+  th{text-align:left; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:var(--brass); padding:8px 10px; border-bottom:1px solid var(--rule);}
+  td{padding:9px 10px; border-bottom:1px solid var(--rule); color:var(--paper-dim);}
+  td b{color:var(--paper);}
+  .pill{display:inline-block; padding:2px 8px; border-radius:10px; font-family:'IBM Plex Mono',monospace; font-size:10.5px;}
+  .pill.hit{background:rgba(91,158,114,.14); color:var(--bull);}
+  .pill.miss{background:rgba(189,90,66,.14); color:var(--bear);}
+  .err{color:var(--bear); padding:20px; border:1px solid var(--bear); border-radius:2px;}
+  .stat-strip{display:flex; gap:24px; margin:16px 0 0;}
+  .stat{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--paper-dim);}
+  .stat b{color:var(--brass); font-size:16px; font-family:'Fraunces',serif; display:block;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="navbrand">TEAM ULTRA</span>
+    <a href="index.html">Dashboard</a>
+    <a href="agents.html">Agents</a>
+    <a href="calibration.html" class="active">Calibration</a>
+    <a href="logs.html">Logs</a>
+  </nav>
+  <h1>Calibration &amp; Trust</h1>
+  <div class="subline">How right have we actually been — per model, over time.</div>
+  <div id="app">Loading…</div>
+</div>
+
+<script>
+async function build() {
+  const app = document.getElementById("app");
+  try {
+    const manifest = await fetch("data/manifest.json").then(r => r.json());
+    const weights = await fetch("data/trust/trust_weights.json").then(r => r.json());
+
+    const calibs = [];
+    for (const fname of manifest.calibration) {
+      calibs.push(await fetch(`data/calibration/${fname}`).then(r => r.json()));
+    }
+    calibs.sort((a,b) => (a.week_start < b.week_start ? 1 : -1));
+
+    // aggregate hit rate per model
+    const modelStats = {};
+    calibs.forEach(c => (c.model_scores||[]).forEach(ms => {
+      modelStats[ms.model_name] = modelStats[ms.model_name] || {hits:0, total:0};
+      modelStats[ms.model_name].total++;
+      if (ms.direction_correct) modelStats[ms.model_name].hits++;
+    }));
+    const synthHits = calibs.filter(c => c.synthesis_direction_correct).length;
+
+    const maxWeight = Math.max(...Object.values(weights));
+    const weightRows = Object.entries(weights).sort((a,b)=>b[1]-a[1]).map(([name, w]) => `
+      <div class="weight-row">
+        <div class="name">${name}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${(w/maxWeight*100).toFixed(0)}%"></div></div>
+        <div class="val">${(w*100).toFixed(1)}%</div>
+      </div>`).join("");
+
+    const statChips = Object.entries(modelStats).map(([name, s]) => `
+      <div class="stat"><b>${((s.hits/s.total)*100).toFixed(0)}%</b>${name} (${s.hits}/${s.total})</div>`).join("");
+
+    const rows = calibs.map(c => `
+      <tr>
+        <td><b>${c.ticker}</b></td>
+        <td>${c.week_start}</td>
+        <td>${c.actual_direction||'—'} (${(c.actual_pct>=0?'+':'')}${(c.actual_pct||0).toFixed(2)}%)</td>
+        <td>${(c.model_scores||[]).map(ms => `<span class="pill ${ms.direction_correct?'hit':'miss'}">${ms.model_name}</span>`).join(' ')}</td>
+        <td><span class="pill ${c.synthesis_direction_correct?'hit':'miss'}">${c.synthesis_direction_correct?'HIT':'MISS'}</span></td>
+      </tr>`).join("");
+
+    app.innerHTML = `
+      <div class="section-label">Current Trust Weights</div>
+      ${weightRows}
+      <div class="stat-strip">
+        ${statChips}
+        <div class="stat"><b>${calibs.length ? ((synthHits/calibs.length)*100).toFixed(0) : '—'}%</b>Synthesis (${synthHits}/${calibs.length})</div>
+      </div>
+
+      <div class="section-label">Full Calibration History</div>
+      <table>
+        <thead><tr><th>Index</th><th>Week</th><th>Actual</th><th>Model Calls</th><th>Synthesis</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="5">No calibration history yet.</td></tr>'}</tbody>
+      </table>
+    `;
+  } catch(e) {
+    app.innerHTML = `<div class="err">Could not load: ${e.message}</div>`;
+  }
+}
+build();
+</script>
+</body>
+</html>
