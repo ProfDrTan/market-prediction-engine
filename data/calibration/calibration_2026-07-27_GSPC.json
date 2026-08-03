@@ -1,0 +1,28 @@
+{
+  "ticker": "^GSPC",
+  "week_start": "2026-07-27",
+  "actual_pct": 1.03,
+  "actual_direction": "up",
+  "model_scores": [
+    {
+      "model_name": "Nemotron",
+      "direction_correct": false,
+      "range_hit": true,
+      "updated_trust_weight": 0.2598
+    },
+    {
+      "model_name": "GPT-OSS",
+      "direction_correct": false,
+      "range_hit": true,
+      "updated_trust_weight": 0.3481
+    },
+    {
+      "model_name": "Laguna",
+      "direction_correct": true,
+      "range_hit": true,
+      "updated_trust_weight": 0.6902
+    }
+  ],
+  "synthesis_direction_correct": true,
+  "synthesis_range_hit": true
+}
