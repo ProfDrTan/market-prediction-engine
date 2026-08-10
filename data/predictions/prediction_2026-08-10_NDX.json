@@ -1,0 +1,56 @@
+{
+  "ticker": "^NDX",
+  "prediction_date": "2026-08-10",
+  "technical": {
+    "ticker": "^NDX",
+    "trend": "uptrend",
+    "rsi": 59.7,
+    "pct_from_50dma": 1.2,
+    "pct_from_200dma": 11.64,
+    "momentum_20d": -0.34,
+    "notes": "RSI 59.7 (neutral)"
+  },
+  "macro": {
+    "regime": "neutral",
+    "dxy_change_1w": -0.32,
+    "yield_10y_change_1w": -1.79,
+    "oil_change_1w": -2.53,
+    "gold_change_1w": 9.55,
+    "vix_level": 15.42,
+    "notes": "DXY -0.32%, 10Y yield -1.79%, Oil -2.53%, Gold +9.55%, VIX 15.42. Most recent Fed event (2026-07-29) is outside the 10-day lookback window."
+  },
+  "almanac": {
+    "month": 8,
+    "seasonal_bias": "bullish",
+    "avg_return_this_month": 0.0098,
+    "win_rate_this_month": 0.65,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 8; avg 0.98%, win rate 65%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "up",
+      "range_low": 0.5,
+      "range_high": 2.0,
+      "confidence": "medium",
+      "reasoning": "Uptrend and seasonal bullish bias outweigh slight negative momentum and neutral macro, suggesting a modest rise over the next five days."
+    },
+    {
+      "model_name": "Gemma",
+      "direction": "up",
+      "range_low": -0.5,
+      "range_high": 1.5,
+      "confidence": "medium",
+      "reasoning": "Bullish seasonal bias and a positive trend outweigh the slight dip in 20-day momentum."
+    }
+  ],
+  "weighted_direction": "up",
+  "weighted_range_low": -0.24,
+  "weighted_range_high": 1.63,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 0.2628,
+    "Gemma": 0.7372
+  }
+}
