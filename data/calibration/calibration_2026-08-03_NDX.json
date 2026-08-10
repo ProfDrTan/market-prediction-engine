@@ -1,0 +1,22 @@
+{
+  "ticker": "^NDX",
+  "week_start": "2026-08-03",
+  "actual_pct": 3.29,
+  "actual_direction": "up",
+  "model_scores": [
+    {
+      "model_name": "Nemotron",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.3564
+    },
+    {
+      "model_name": "GPT-OSS",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.0585
+    }
+  ],
+  "synthesis_direction_correct": false,
+  "synthesis_range_hit": false
+}
