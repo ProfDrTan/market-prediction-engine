@@ -1,0 +1,22 @@
+{
+  "ticker": "^GSPC",
+  "week_start": "2026-08-10",
+  "actual_pct": 0.42,
+  "actual_direction": "up",
+  "model_scores": [
+    {
+      "model_name": "Nemotron",
+      "direction_correct": true,
+      "range_hit": false,
+      "updated_trust_weight": 0.6695
+    },
+    {
+      "model_name": "GPT-OSS",
+      "direction_correct": true,
+      "range_hit": false,
+      "updated_trust_weight": 0.4609
+    }
+  ],
+  "synthesis_direction_correct": true,
+  "synthesis_range_hit": false
+}
