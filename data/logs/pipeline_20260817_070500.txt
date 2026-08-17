@@ -1,0 +1,41 @@
+Running pipeline for ^GSPC...
+  Technical: uptrend, RSI 75.3
+  Almanac: neutral bias for month 8
+  Macro regime: risk-off
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 3s (1/3)
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  Laguna: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  Laguna: ERROR HTTP Error 404: Not Found
+  Synthesized: up (0.09% to 1.27%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-08-17_GSPC.json
+Running pipeline for ^NDX...
+  Technical: uptrend, RSI 70.52
+  Almanac: bullish bias for month 8
+  Macro regime: risk-off
+  Nemotron: no numeric value found for 'RANGE_LOW' in '<float percent>', retrying after 3s (1/3)
+  GPT-OSS: empty response content (finish_reason='length'), retrying after 3s (1/3)
+  GPT-OSS: empty response content (finish_reason='length'), retrying after 6s (2/3)
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 3s (1/3)
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  Laguna: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  Laguna: ERROR HTTP Error 404: Not Found
+  Synthesized: up (0.37% to 1.63%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-08-17_NDX.json
+Running pipeline for IWM...
+  Technical: uptrend, RSI 67.58
+  Almanac: neutral bias for month 8
+  Macro regime: risk-off
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 3s (1/3)
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  Laguna: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  Laguna: ERROR HTTP Error 404: Not Found
+  Synthesized: up (0.5% to 2.0%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-08-17_IWM.json
+
+PYTHON EXIT CODE: 0
