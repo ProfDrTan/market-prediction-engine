@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "purpose": "Daily cross-asset relationship log: yields, gold, Bitcoin, dollar, oil/geopolitical drivers. Built to teach causal reasoning in markets — most days have multiple simultaneous drivers, not one clean story.",
+    "last_updated": "2026-08-20",
+    "workflow": "Semi-automated: Claude fetches via web search daily, Prof Dr Tan approves before publish."
+  },
+  "entries": [
+    {
+      "date": "2026-08-18",
+      "day_label": "Tuesday",
+      "yields": {
+        "note": "30-year Treasury yield rose to its highest point since 2007 amid ongoing bond selloff.",
+        "confidence": "high"
+      },
+      "gold": {
+        "note": "Longer-run context: gold down roughly 14.7% since the Iran conflict began in late February, though daily print for the 18th itself was not independently confirmed.",
+        "confidence": "medium"
+      },
+      "bitcoin": {
+        "note": "Opened near $64,488 (+2.7% vs Monday), dipped to ~$64,080 by mid-morning ET. Down ~4.4% since the war began in late Feb.",
+        "confidence": "medium"
+      },
+      "dollar": {
+        "note": "No clean same-day DXY figure retrieved — data gap.",
+        "confidence": "none"
+      },
+      "oil_geopolitical": {
+        "note": "US-Iran conflict/stalemate continuing since late February 2026; no resolution in sight, keeping safe-haven and inflation-risk premia elevated across assets.",
+        "confidence": "high"
+      },
+      "causal_read": "Bond market stress (30Y at multi-year highs) was the dominant story. Crypto showed a modest bounce off a weekly low but remained in a broader downtrend tied to war-driven risk-off sentiment. Gold's own daily move on this date wasn't independently verified — a real data gap, worth noting to students: not every relationship can be confirmed same-day from public sources.",
+      "confidence_overall": "medium — yields and geopolitical context solid, gold/BTC same-day prints incomplete"
+    },
+    {
+      "date": "2026-08-19",
+      "day_label": "Wednesday",
+      "yields": {
+        "note": "Treasury Secretary Bessent announced doubling long-end debt buybacks (10Y-20Y and 20Y-30Y sectors, $2B to at least $4B per operation, effective Sept 9). 30-year yield plunged from ~5.26% to as low as 5.18% (-9 to -10bp); 10-year fell from ~4.68% to ~4.63% (-5 to -6bp).",
+        "confidence": "high"
+      },
+      "gold": {
+        "note": "Surged over 4% intraday, reaching the $4,480-4,500 zone — testing its daily 200-period SMA and breaking above a major descending trendline. Best single-day gold move of the week.",
+        "confidence": "high"
+      },
+      "bitcoin": {
+        "note": "No clean same-day BTC figure retrieved — data gap. Broader crypto market remained in extended bear-market conditions per contemporaneous commentary.",
+        "confidence": "none"
+      },
+      "dollar": {
+        "note": "Bloomberg reported the buyback announcement 'sending Treasury yields and the dollar down' — directionally weaker, magnitude not confirmed.",
+        "confidence": "medium"
+      },
+      "oil_geopolitical": {
+        "note": "US-Iran stalemate remained unresolved and kept inflationary risk in focus per FOMC-minutes commentary released the same day.",
+        "confidence": "medium"
+      },
+      "equities": {
+        "note": "S&P 500 closed +0.2%, Nasdaq +0.16% — stocks traded higher initially on the buyback news but faded through the day.",
+        "confidence": "high"
+      },
+      "causal_read": "Clean textbook day: falling yields (opportunity-cost channel) + weaker dollar combined to drive gold's sharp rally. This is the clearest single-driver day of the three — good teaching example of the mechanism working as expected.",
+      "confidence_overall": "high for yields/gold relationship; BTC data gap remains"
+    },
+    {
+      "date": "2026-08-20",
+      "day_label": "Thursday",
+      "yields": {
+        "note": "Reversed sharply higher, giving back most of Wednesday's decline. 10-year climbed >5bp to 4.704%; 30-year rose ~6bp to 5.254% (one source noted a further +3bp on top of that later in the session). FOMC July minutes (released Wed) showed some officials favoring a rate hike this year to contain inflation — a hawkish overhang.",
+        "confidence": "high"
+      },
+      "gold": {
+        "note": "Two-phase day. Early (pre-market/AM ET): gold extended Wednesday's rally, spiking to ~$4,510-4,520, still riding the falling-yield tailwind. Midday: eased back below $4,500 (~$4,474-4,491) as yields reversed. Evening (confirmed via Prof's live ThinkOrSwim position, ET close): gold reclaimed strength, position mark hit $4,573.60, +0.62% on the day — meaning gold finished UP on a day when yields were UP, breaking the simple inverse-correlation story.",
+        "confidence": "high — directly confirmed via live position screenshots at two points in the day"
+      },
+      "bitcoin": {
+        "note": "No clean, consistent same-day BTC figure retrieved — search results for 'today' returned contradictory numbers across sources (some $64K-range, some $68-69K range), likely mixing stale cached data with live feeds. Flagged as a genuine data-quality problem, not resolved.",
+        "confidence": "none — explicit gap, worth showing students as a lesson in source verification"
+      },
+      "dollar": {
+        "note": "Not independently confirmed for this date with a clean DXY print — data gap.",
+        "confidence": "none"
+      },
+      "oil_geopolitical": {
+        "note": "Trump vowed 'economic warfare' on Iran and threatened financial penalties on its supporters; UAE suspended trade with Tehran. Brent crude +2.19% to $93.61/barrel, WTI +2%+ to $87.56 — a live escalation, not background noise.",
+        "confidence": "high"
+      },
+      "equities": {
+        "note": "Dow -350pts (-0.6%), S&P 500 -0.3%, Nasdaq -0.4 to -0.7% (5th straight losing day for Nasdaq). Walmart -8% on weak comp sales and soft guidance, dragged consumer staples sector -1.6% — a company-specific driver layered on top of the macro story.",
+        "confidence": "high"
+      },
+      "causal_read": "This is the important teaching day. The simple 'yields up → gold down' story only explains the midday dip, not the evening reclaim. Yields stayed elevated all day, yet gold finished green. The more complete explanation: escalating Iran/oil geopolitical risk (a live, intensifying story on this specific day) likely dominated the yield effect by the close — safe-haven demand for gold outweighing the opportunity-cost drag from higher yields. Single-variable stories break down on exactly the days markets are moving the most — multiple drivers were fighting each other simultaneously, and geopolitical risk won.",
+      "confidence_overall": "high on yields/gold/oil/equities; BTC and DXY remain open data gaps for this date"
+    }
+  ]
+}
