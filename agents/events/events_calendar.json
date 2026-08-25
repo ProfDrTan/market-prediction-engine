@@ -1,0 +1,45 @@
+{
+  "_maintenance_note": "Manually curated, same pattern as agents/macro/fed_events.json. Update weekly (Monday) with the coming week's confirmed earnings/econ/Fed events. Stale entries (date < today) are ignored by events_agent.run() automatically, but should be pruned periodically to keep this file small.",
+  "events": [
+    {
+      "date": "2026-08-26",
+      "time_et": "17:00",
+      "label": "NVIDIA (NVDA) Q2 FY27 earnings, after market close",
+      "category": "earnings",
+      "impact": "high",
+      "notes": "Largest single-name catalyst for NQ this week given NVDA's index weight. Consensus ~$91-92B revenue vs NVIDIA's own $91.0B +/-2% guidance. Historically moves NQ 5-10%+ on the print. Call starts ~5:00pm ET same day."
+    },
+    {
+      "date": "2026-08-26",
+      "time_et": "08:30",
+      "label": "Core PCE Price Index (Jul) -- Fed's preferred inflation gauge",
+      "category": "econ_data",
+      "impact": "high",
+      "notes": "SOURCE CONFLICT, FLAGGED NOT RESOLVED: one source has this Wed 8/26, another has it Thu 8/27, both citing 8:30am ET. Verify closer to release rather than trusting this date blindly. Consensus ~0.2% MoM, ~3.2% YoY."
+    },
+    {
+      "date": "2026-08-27",
+      "time_et": "",
+      "label": "Jackson Hole Economic Policy Symposium begins (through Aug 29)",
+      "category": "fed",
+      "impact": "high",
+      "notes": "Fed Chair Kevin Warsh speaks during the symposium -- historically the marquee keynote lands Friday morning, but exact slot not yet confirmed as of this write. Same macro driver behind the current gold rally (fiscal sustainability / bond buyback concerns); a hawkish surprise pressures gold, a dovish one extends the rally."
+    },
+    {
+      "date": "2026-08-27",
+      "time_et": "08:30",
+      "label": "Initial Jobless Claims (weekly)",
+      "category": "econ_data",
+      "impact": "low",
+      "notes": "Standard weekly cadence, Thursdays 8:30am ET. Only market-moving on a meaningful surprise vs. the 4-week average."
+    },
+    {
+      "date": "2026-08-28",
+      "time_et": "08:30",
+      "label": "Non-Farm Payrolls Annual Revision (preliminary)",
+      "category": "econ_data",
+      "impact": "medium",
+      "notes": "Data-quality/revision release, not the regular monthly NFP report -- can still move markets on a large revision surprise."
+    }
+  ]
+}
