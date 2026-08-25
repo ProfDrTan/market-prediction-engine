@@ -63,3 +63,22 @@ class ActualResult:
     week_start: date
     pct_change: float
     direction: str
+
+
+@dataclass
+class CalendarEvent:
+    date: str              # ISO date, e.g. "2026-08-26"
+    time_et: str            # e.g. "17:00" (24h, US Eastern) or "" if all-day/TBD
+    label: str              # e.g. "NVIDIA Q2 FY27 earnings (after close)"
+    category: str           # "earnings" | "econ_data" | "fed" | "other"
+    impact: str = "medium"  # "high" | "medium" | "low" — subjective, human-set
+    notes: str = ""
+
+
+@dataclass
+class EventsOutput:
+    as_of_date: date
+    events_this_week: list = field(default_factory=list)  # list[CalendarEvent]
+    chewable_summary: str = ""
+    notes: str = ""
+
