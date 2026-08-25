@@ -60,3 +60,37 @@ def run(ticker: str, as_of: date | None = None) -> AlmanacOutput:
         years_of_history=years,
         notes=notes,
     )
+
+
+MONTH_NAMES = ["", "January", "February", "March", "April", "May", "June",
+               "July", "August", "September", "October", "November", "December"]
+
+
+def chewable_summary(output: AlmanacOutput, ticker: str) -> str:
+    """Plain-language read of the AlmanacOutput -- what a raw
+    win_rate/avg_return pair actually means in practice, and how much
+    weight it deserves. Does not change the underlying score/bias
+    calculation in run() above; this is a presentation layer only."""
+    month_name = MONTH_NAMES[output.month] if 0 < output.month < 13 else str(output.month)
+    years = output.years_of_history
+    win_pct = output.win_rate_this_month * 100
+    avg_pct = output.avg_return_this_month * 100
+    wins = round(output.win_rate_this_month * years)
+
+    if years < 10:
+        reliability = (f"Only {years} years of data -- treat this as a weak, "
+                        f"low-confidence signal, not a real edge.")
+    elif 0.45 <= output.win_rate_this_month <= 0.55:
+        reliability = (f"Win rate is close to a coin flip across {years} years -- "
+                        f"seasonality alone shouldn't move your sizing much this month.")
+    else:
+        reliability = (f"That's a {'consistent' if years >= 15 else 'moderately consistent'} "
+                        f"historical lean over {years} years, worth weighting alongside "
+                        f"technical/macro reads, but not a signal to trade on alone.")
+
+    return (
+        f"{ticker} has closed {'higher' if avg_pct >= 0 else 'lower'} in {wins} of the last "
+        f"{years} {month_name}s ({win_pct:.0f}% win rate), averaging "
+        f"{'+' if avg_pct >= 0 else ''}{avg_pct:.2f}% for the month. "
+        f"Seasonal bias: {output.seasonal_bias}. {reliability}"
+    )
