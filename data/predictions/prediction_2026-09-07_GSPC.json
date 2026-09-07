@@ -1,0 +1,47 @@
+{
+  "ticker": "^GSPC",
+  "prediction_date": "2026-09-07",
+  "technical": {
+    "ticker": "^GSPC",
+    "trend": "uptrend",
+    "rsi": 47.44,
+    "pct_from_50dma": 1.67,
+    "pct_from_200dma": 8.08,
+    "momentum_20d": -0.5,
+    "notes": "RSI 47.44 (neutral)"
+  },
+  "macro": {
+    "regime": "risk-off",
+    "dxy_change_1w": -0.47,
+    "yield_10y_change_1w": 1.36,
+    "oil_change_1w": 6.67,
+    "gold_change_1w": 1.03,
+    "vix_level": 15.22,
+    "notes": "DXY -0.47%, 10Y yield +1.36%, Oil +6.67%, Gold +1.03%, VIX 15.22. Most recent Fed event (2026-07-29) is outside the 10-day lookback window."
+  },
+  "almanac": {
+    "month": 9,
+    "seasonal_bias": "neutral",
+    "avg_return_this_month": -0.0061,
+    "win_rate_this_month": 0.55,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 9; avg -0.61%, win rate 55%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "up",
+      "range_low": -0.3,
+      "range_high": 1.2,
+      "confidence": "medium",
+      "reasoning": "Despite a mild negative"
+    }
+  ],
+  "weighted_direction": "up",
+  "weighted_range_low": -0.3,
+  "weighted_range_high": 1.2,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 1.0
+  }
+}
