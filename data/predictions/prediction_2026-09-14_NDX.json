@@ -1,0 +1,47 @@
+{
+  "ticker": "^NDX",
+  "prediction_date": "2026-09-14",
+  "technical": {
+    "ticker": "^NDX",
+    "trend": "sideways",
+    "rsi": 51.11,
+    "pct_from_50dma": 0.59,
+    "pct_from_200dma": 8.25,
+    "momentum_20d": -2.38,
+    "notes": "RSI 51.11 (neutral)"
+  },
+  "macro": {
+    "regime": "risk-off",
+    "dxy_change_1w": 0.33,
+    "yield_10y_change_1w": 4.47,
+    "oil_change_1w": 12.67,
+    "gold_change_1w": -2.12,
+    "vix_level": 17.7,
+    "notes": "DXY +0.33%, 10Y yield +4.47%, Oil +12.67%, Gold -2.12%, VIX 17.7. Most recent Fed event (2026-07-29) is outside the 10-day lookback window."
+  },
+  "almanac": {
+    "month": 9,
+    "seasonal_bias": "neutral",
+    "avg_return_this_month": -0.0049,
+    "win_rate_this_month": 0.45,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 9; avg -0.49%, win rate 45%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "down",
+      "range_low": -0.8,
+      "range_high": -0.1,
+      "confidence": "medium",
+      "reasoning": "Despite a neutral RSI and sideways trend, risk\u2011off macro conditions and negative 20\u2011day momentum tilt the bias toward a modest decline over the next five days."
+    }
+  ],
+  "weighted_direction": "down",
+  "weighted_range_low": -0.8,
+  "weighted_range_high": -0.1,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 1.0
+  }
+}

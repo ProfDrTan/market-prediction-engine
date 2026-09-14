@@ -1,0 +1,48 @@
+Running pipeline for ^GSPC...
+  Technical: sideways, RSI 48.39
+  Almanac: neutral bias for month 9
+  Macro regime: risk-off
+  Nemotron: empty response content (finish_reason=None), retrying after 3s (1/3)
+  Nemotron: empty response content (finish_reason=None), retrying after 6s (2/3)
+  Nemotron: ERROR empty response content (finish_reason=None)
+  GPT-OSS: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  GPT-OSS: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  GPT-OSS: ERROR HTTP Error 404: Not Found
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 3s (1/3)
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  Laguna: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  Laguna: ERROR HTTP Error 404: Not Found
+  No model calls succeeded for ^GSPC, skipping synthesis.
+Running pipeline for ^NDX...
+  Technical: sideways, RSI 51.11
+  Almanac: neutral bias for month 9
+  Macro regime: risk-off
+  Nemotron: empty response content (finish_reason=None), retrying after 3s (1/3)
+  Nemotron: no numeric value found for 'RANGE_LOW' in '<float percent>', retrying after 6s (2/3)
+  GPT-OSS: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  GPT-OSS: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  GPT-OSS: ERROR HTTP Error 404: Not Found
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 3s (1/3)
+  Gemma: HTTP Error 429: Too Many Requests, retrying after 6s (2/3)
+  Gemma: ERROR HTTP Error 429: Too Many Requests
+  Laguna: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  Laguna: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  Laguna: ERROR HTTP Error 404: Not Found
+  Synthesized: down (-0.8% to -0.1%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-09-14_NDX.json
+Running pipeline for IWM...
+  Technical: sideways, RSI 30.65
+  Almanac: neutral bias for month 9
+  Macro regime: risk-off
+  GPT-OSS: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  GPT-OSS: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  GPT-OSS: ERROR HTTP Error 404: Not Found
+  Laguna: HTTP Error 404: Not Found, retrying after 3s (1/3)
+  Laguna: HTTP Error 404: Not Found, retrying after 6s (2/3)
+  Laguna: ERROR HTTP Error 404: Not Found
+  Synthesized: flat (-1.2% to 0.37%), confidence medium
+  Saved to /home/runner/work/market-prediction-engine/market-prediction-engine/data/predictions/prediction_2026-09-14_IWM.json
+
+PYTHON EXIT CODE: 0
