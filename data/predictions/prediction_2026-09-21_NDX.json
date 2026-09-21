@@ -1,0 +1,47 @@
+{
+  "ticker": "^NDX",
+  "prediction_date": "2026-09-21",
+  "technical": {
+    "ticker": "^NDX",
+    "trend": "uptrend",
+    "rsi": 53.88,
+    "pct_from_50dma": 1.6,
+    "pct_from_200dma": 8.86,
+    "momentum_20d": 1.48,
+    "notes": "RSI 53.88 (neutral)"
+  },
+  "macro": {
+    "regime": "risk-off",
+    "dxy_change_1w": 0.77,
+    "yield_10y_change_1w": 0.46,
+    "oil_change_1w": -8.03,
+    "gold_change_1w": 1.25,
+    "vix_level": 14.82,
+    "notes": "DXY +0.77%, 10Y yield +0.46%, Oil -8.03%, Gold +1.25%, VIX 14.82. Most recent Fed event (2026-07-29) is outside the 10-day lookback window."
+  },
+  "almanac": {
+    "month": 9,
+    "seasonal_bias": "neutral",
+    "avg_return_this_month": -0.0044,
+    "win_rate_this_month": 0.5,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 9; avg -0.44%, win rate 50%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "flat",
+      "range_low": -0.3,
+      "range_high": 0.3,
+      "confidence": "medium",
+      "reasoning": "Although the index shows a mild uptrend and positive momentum, the prevailing risk\u2011off macro environment and neutral seasonal bias suggest limited conviction, leading to a flat outlook with modest potential moves."
+    }
+  ],
+  "weighted_direction": "flat",
+  "weighted_range_low": -0.3,
+  "weighted_range_high": 0.3,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 1.0
+  }
+}
