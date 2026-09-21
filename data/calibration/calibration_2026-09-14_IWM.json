@@ -1,0 +1,22 @@
+{
+  "ticker": "IWM",
+  "week_start": "2026-09-14",
+  "actual_pct": -1.07,
+  "actual_direction": "down",
+  "model_scores": [
+    {
+      "model_name": "Nemotron",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.658
+    },
+    {
+      "model_name": "Gemma",
+      "direction_correct": true,
+      "range_hit": true,
+      "updated_trust_weight": 1.4659
+    }
+  ],
+  "synthesis_direction_correct": false,
+  "synthesis_range_hit": true
+}
