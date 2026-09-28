@@ -1,0 +1,47 @@
+{
+  "ticker": "IWM",
+  "prediction_date": "2026-09-28",
+  "technical": {
+    "ticker": "IWM",
+    "trend": "sideways",
+    "rsi": 23.99,
+    "pct_from_50dma": -3.89,
+    "pct_from_200dma": 2.75,
+    "momentum_20d": -5.7,
+    "notes": "RSI 23.99 (oversold)"
+  },
+  "macro": {
+    "regime": "risk-off",
+    "dxy_change_1w": 0.78,
+    "yield_10y_change_1w": 5.24,
+    "oil_change_1w": -1.72,
+    "gold_change_1w": -4.62,
+    "vix_level": 16.03,
+    "notes": "DXY +0.78%, 10Y yield +5.24%, Oil -1.72%, Gold -4.62%, VIX 16.03. Most recent Fed event (2026-07-29) is outside the 10-day lookback window."
+  },
+  "almanac": {
+    "month": 9,
+    "seasonal_bias": "neutral",
+    "avg_return_this_month": -0.0073,
+    "win_rate_this_month": 0.5,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 9; avg -0.73%, win rate 50%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "flat",
+      "range_low": -2.0,
+      "range_high": 1.0,
+      "confidence": "medium",
+      "reasoning": "Despite oversold RSI suggesting a bounce, the prevailing risk\u2011off macro environment and negative 20\u2011day momentum keep the outlook balanced, leading to a flat expectation with limited upside/downside."
+    }
+  ],
+  "weighted_direction": "flat",
+  "weighted_range_low": -2.0,
+  "weighted_range_high": 1.0,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 1.0
+  }
+}

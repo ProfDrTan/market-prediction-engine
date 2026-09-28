@@ -1,0 +1,47 @@
+{
+  "ticker": "^GSPC",
+  "prediction_date": "2026-09-28",
+  "technical": {
+    "ticker": "^GSPC",
+    "trend": "uptrend",
+    "rsi": 52.03,
+    "pct_from_50dma": 1.41,
+    "pct_from_200dma": 7.47,
+    "momentum_20d": 0.16,
+    "notes": "RSI 52.03 (neutral)"
+  },
+  "macro": {
+    "regime": "risk-off",
+    "dxy_change_1w": 0.78,
+    "yield_10y_change_1w": 5.24,
+    "oil_change_1w": -1.72,
+    "gold_change_1w": -4.62,
+    "vix_level": 16.03,
+    "notes": "DXY +0.78%, 10Y yield +5.24%, Oil -1.72%, Gold -4.62%, VIX 16.03. Most recent Fed event (2026-07-29) is outside the 10-day lookback window."
+  },
+  "almanac": {
+    "month": 9,
+    "seasonal_bias": "neutral",
+    "avg_return_this_month": -0.0059,
+    "win_rate_this_month": 0.55,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 9; avg -0.59%, win rate 55%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "up",
+      "range_low": 0.3,
+      "range_high": 1.2,
+      "confidence": "medium",
+      "reasoning": "The index is expected to move between 0.3% to 1.2% over the next 5 days given mild uptrend, neutral RSI, and mixed macro signals."
+    }
+  ],
+  "weighted_direction": "up",
+  "weighted_range_low": 0.3,
+  "weighted_range_high": 1.2,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 1.0
+  }
+}

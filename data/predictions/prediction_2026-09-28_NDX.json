@@ -1,0 +1,47 @@
+{
+  "ticker": "^NDX",
+  "prediction_date": "2026-09-28",
+  "technical": {
+    "ticker": "^NDX",
+    "trend": "uptrend",
+    "rsi": 65.97,
+    "pct_from_50dma": 4.51,
+    "pct_from_200dma": 11.9,
+    "momentum_20d": 3.26,
+    "notes": "RSI 65.97 (neutral)"
+  },
+  "macro": {
+    "regime": "risk-off",
+    "dxy_change_1w": 0.78,
+    "yield_10y_change_1w": 5.24,
+    "oil_change_1w": -1.72,
+    "gold_change_1w": -4.62,
+    "vix_level": 16.03,
+    "notes": "DXY +0.78%, 10Y yield +5.24%, Oil -1.72%, Gold -4.62%, VIX 16.03. Most recent Fed event (2026-07-29) is outside the 10-day lookback window."
+  },
+  "almanac": {
+    "month": 9,
+    "seasonal_bias": "neutral",
+    "avg_return_this_month": -0.0028,
+    "win_rate_this_month": 0.5,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 9; avg -0.28%, win rate 50%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "flat",
+      "range_low": -0.4,
+      "range_high": 0.4,
+      "confidence": "medium",
+      "reasoning": "The uptrend and positive 20\u2011day momentum are offset by a risk\u2011off macro backdrop, suggesting limited net movement over the next five days."
+    }
+  ],
+  "weighted_direction": "flat",
+  "weighted_range_low": -0.4,
+  "weighted_range_high": 0.4,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 1.0
+  }
+}
