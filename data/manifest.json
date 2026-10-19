@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-12T15:01:42.807409Z",
+  "generated": "2026-10-19T12:45:33.054538Z",
   "predictions": [
     "prediction_2026-07-09_GSPC.json",
     "prediction_2026-07-09_IWM.json",
@@ -44,7 +44,10 @@
     "prediction_2026-10-05_NDX.json",
     "prediction_2026-10-12_GSPC.json",
     "prediction_2026-10-12_IWM.json",
-    "prediction_2026-10-12_NDX.json"
+    "prediction_2026-10-12_NDX.json",
+    "prediction_2026-10-19_GSPC.json",
+    "prediction_2026-10-19_IWM.json",
+    "prediction_2026-10-19_NDX.json"
   ],
   "calibration": [
     "calibration_2026-07-09_GSPC.json",
@@ -84,7 +87,13 @@
     "calibration_2026-09-21_NDX.json",
     "calibration_2026-09-28_GSPC.json",
     "calibration_2026-09-28_IWM.json",
-    "calibration_2026-09-28_NDX.json"
+    "calibration_2026-09-28_NDX.json",
+    "calibration_2026-10-05_GSPC.json",
+    "calibration_2026-10-05_IWM.json",
+    "calibration_2026-10-05_NDX.json",
+    "calibration_2026-10-12_GSPC.json",
+    "calibration_2026-10-12_IWM.json",
+    "calibration_2026-10-12_NDX.json"
   ],
   "logs": [
     "pipeline_20260708_162907.txt",
@@ -106,7 +115,8 @@
     "pipeline_20260921_122854.txt",
     "pipeline_20260928_132654.txt",
     "pipeline_20261005_141015.txt",
-    "pipeline_20261012_145907.txt"
+    "pipeline_20261012_145907.txt",
+    "pipeline_20261019_124257.txt"
   ],
   "tickers": [
     "GSPC",

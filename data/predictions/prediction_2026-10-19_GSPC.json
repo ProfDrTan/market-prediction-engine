@@ -1,0 +1,47 @@
+{
+  "ticker": "^GSPC",
+  "prediction_date": "2026-10-19",
+  "technical": {
+    "ticker": "^GSPC",
+    "trend": "sideways",
+    "rsi": 47.58,
+    "pct_from_50dma": -0.61,
+    "pct_from_200dma": 5.34,
+    "momentum_20d": 0.12,
+    "notes": "RSI 47.58 (neutral)"
+  },
+  "macro": {
+    "regime": "risk-on",
+    "dxy_change_1w": -0.67,
+    "yield_10y_change_1w": -2.79,
+    "oil_change_1w": 4.25,
+    "gold_change_1w": -0.19,
+    "vix_level": 18.59,
+    "notes": "DXY -0.67%, 10Y yield -2.79%, Oil +4.25%, Gold -0.19%, VIX 18.59. Most recent Fed event (2026-07-29) is outside the 10-day lookback window."
+  },
+  "almanac": {
+    "month": 10,
+    "seasonal_bias": "bullish",
+    "avg_return_this_month": 0.0084,
+    "win_rate_this_month": 0.6,
+    "years_of_history": 20,
+    "notes": "20 years of history for month 10; avg 0.84%, win rate 60%"
+  },
+  "model_calls": [
+    {
+      "model_name": "Nemotron",
+      "direction": "up",
+      "range_low": -0.3,
+      "range_high": 1.2,
+      "confidence": "medium",
+      "reasoning": "Despite a sideways technical backdrop, risk\u2011on macro conditions and a bullish seasonal bias tilt the odds toward modest upside over the next five days."
+    }
+  ],
+  "weighted_direction": "up",
+  "weighted_range_low": -0.3,
+  "weighted_range_high": 1.2,
+  "weighted_confidence": "medium",
+  "weights_used": {
+    "Nemotron": 1.0
+  }
+}
