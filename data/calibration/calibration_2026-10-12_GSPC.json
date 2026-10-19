@@ -1,0 +1,16 @@
+{
+  "ticker": "^GSPC",
+  "week_start": "2026-10-12",
+  "actual_pct": -1.89,
+  "actual_direction": "down",
+  "model_scores": [
+    {
+      "model_name": "Nemotron",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.5496
+    }
+  ],
+  "synthesis_direction_correct": false,
+  "synthesis_range_hit": false
+}

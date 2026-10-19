@@ -1,0 +1,16 @@
+{
+  "ticker": "^NDX",
+  "week_start": "2026-10-05",
+  "actual_pct": -1.32,
+  "actual_direction": "down",
+  "model_scores": [
+    {
+      "model_name": "Nemotron",
+      "direction_correct": false,
+      "range_hit": false,
+      "updated_trust_weight": 0.7852
+    }
+  ],
+  "synthesis_direction_correct": false,
+  "synthesis_range_hit": false
+}
