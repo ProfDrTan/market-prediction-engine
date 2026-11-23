@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-16T15:24:20.033916Z",
+  "generated": "2026-11-23T17:49:46.709398Z",
   "predictions": [
     "prediction_2026-07-09_GSPC.json",
     "prediction_2026-07-09_IWM.json",
@@ -101,7 +101,8 @@
     "calibration_2026-10-19_IWM.json",
     "calibration_2026-10-19_NDX.json",
     "calibration_2026-10-26_GSPC.json",
-    "calibration_2026-10-26_NDX.json"
+    "calibration_2026-10-26_NDX.json",
+    "calibration_2026-11-16_IWM.json"
   ],
   "logs": [
     "pipeline_20260708_162907.txt",
@@ -128,7 +129,8 @@
     "pipeline_20261026_123635.txt",
     "pipeline_20261102_151816.txt",
     "pipeline_20261109_154604.txt",
-    "pipeline_20261116_152147.txt"
+    "pipeline_20261116_152147.txt",
+    "pipeline_20261123_174716.txt"
   ],
   "tickers": [
     "GSPC",
