@@ -1,0 +1,16 @@
+{
+  "ticker": "IWM",
+  "week_start": "2026-11-16",
+  "actual_pct": -2.71,
+  "actual_direction": "down",
+  "model_scores": [
+    {
+      "model_name": "Gemma",
+      "direction_correct": true,
+      "range_hit": false,
+      "updated_trust_weight": 0.9228
+    }
+  ],
+  "synthesis_direction_correct": true,
+  "synthesis_range_hit": false
+}
